@@ -1,0 +1,30 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Messages{% endblock %}
+{% block page_title %}Contact Messages{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Received</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for msg in messages %}
+        <tr>
+          <td class="td-main">{{ msg.name }}</td>
+          <td>{{ msg.email }}</td>
+          <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ msg.subject }}</td>
+          <td>{{ msg.created_at|timesince }} ago</td>
+          <td>
+            <div class="tbl-actions">
+              <a href="{% url 'four_admin:message_detail' msg.pk %}" class="tbl-btn" title="View">👁</a>
+              <a href="{% url 'four_admin:message_delete' msg.pk %}" class="tbl-btn tbl-btn-del" onclick="return confirm('Delete?')">✕</a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5"><div class="empty"><div class="empty-icon">💬</div><div class="empty-title">No messages yet</div></div></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

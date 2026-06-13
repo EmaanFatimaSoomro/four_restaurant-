@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Events — {{ RESTAURANT_NAME }}{% endblock %}
+{% block meta_desc %}Upcoming events at {{ RESTAURANT_NAME }} — jazz nights, wine tastings, private dining, and exclusive chef's table experiences.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1600&q=60" alt="Events at Aurum" class="page-hero-img" loading="eager">
+  <div class="page-hero-ov"></div>
+  <div class="page-hero-body">
+    <div class="eyebrow" style="justify-content:center">What's On</div>
+    <h1 class="heading h2" style="text-align:center">Upcoming <em>Events</em></h1>
+    <p class="body-text" style="text-align:center;max-width:440px;margin:16px auto 0">From intimate jazz evenings to grand wine tastings — there is always something extraordinary happening at Aurum.</p>
+  </div>
+</section>
+
+<section style="padding:100px 0;background:var(--b1)">
+  <div class="container">
+    <div class="ev-grid rv">
+      {% for event in events %}
+      <div class="ev">
+        <a href="{% url 'event_detail' event.slug %}">
+          <div class="ev-img">
+            <img src="{{ event.get_image }}" alt="{{ event.title }}" loading="lazy">
+          </div>
+        </a>
+        <div class="ev-body">
+          <div class="ev-date">
+            {{ event.display_date }}
+            {% if event.is_recurring %}<span style="color:var(--t3);margin-left:10px">· Recurring</span>{% endif %}
+          </div>
+          <h3 class="ev-title heading"><a href="{% url 'event_detail' event.slug %}" style="color:inherit">{{ event.title }}</a></h3>
+          <p class="ev-desc">{{ event.short_desc|default:event.description|truncatewords:22 }}</p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <a href="{% url 'event_detail' event.slug %}" class="btn btn-outline" style="font-size:.66rem;padding:12px 24px">Learn More</a>
+            <a href="{% url 'reservation' %}" class="btn btn-gold" style="font-size:.66rem;padding:12px 24px">Reserve</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div style="grid-column:1/-1;text-align:center;padding:80px 0">
+        <p class="body-text">No upcoming events at this time. Check back soon — or call us to ask about private events.</p>
+        <a href="{% url 'contact' %}" class="btn btn-outline" style="margin-top:28px">Contact Us</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- PRIVATE EVENTS CTA -->
+<section style="padding:120px 0;background:var(--b2)">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center">
+      <div class="rv">
+        <div class="eyebrow">Private Occasions</div>
+        <h2 class="heading h2">Host Your <em>Perfect</em><br>Event at Aurum</h2>
+        <p class="body-text" style="margin:20px 0">Whether it's an intimate anniversary dinner, a corporate gathering, or a grand wedding reception — our private dining rooms and dedicated events team are here to craft an unforgettable occasion tailored entirely to you.</p>
+        <ul class="policy-list" style="margin-bottom:32px">
+          <li>Private rooms for 8–40 guests</li>
+          <li>Bespoke menus by Chef Marcus</li>
+          <li>Curated wine and cocktail experiences</li>
+          <li>Audio-visual equipment available</li>
+          <li>Dedicated events coordinator assigned</li>
+        </ul>
+        <a href="{% url 'contact' %}" class="btn btn-gold">Enquire About Private Events</a>
+      </div>
+      <div class="rv d2">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="ai" style="aspect-ratio:1"><img src="https://images.unsplash.com/photo-1519671282429-b44660ead0a7?auto=format&fit=crop&w=500&q=80" alt="Private dining" loading="lazy"></div>
+          <div class="ai" style="aspect-ratio:1"><img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=500&q=80" alt="Jazz evening" loading="lazy"></div>
+          <div class="ai" style="aspect-ratio:1"><img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=500&q=80" alt="Wine tasting" loading="lazy"></div>
+          <div class="ai" style="aspect-ratio:1"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=500&q=80" alt="Fine dining" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Reservations{% endblock %}
+{% block page_title %}Reservations{% endblock %}
+
+{% block content %}
+<!-- STATUS FILTER TABS -->
+<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+  {% for s, label, count in status_tabs %}
+  <a href="?status={{ s }}" class="tb-btn {% if active_status == s %}tb-btn-red{% else %}tb-btn-ghost{% endif %}">
+    {{ label }} {% if count %}<span style="opacity:.7">({{ count }})</span>{% endif %}
+  </a>
+  {% endfor %}
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <div class="card-title">{{ reservations.count }} Reservation{{ reservations.count|pluralize }}</div>
+    <form method="GET" style="display:flex;gap:8px">
+      {% if active_status %}<input type="hidden" name="status" value="{{ active_status }}">{% endif %}
+      <input type="date" name="date" value="{{ request.GET.date }}" class="finp" style="width:auto">
+      <button type="submit" class="tb-btn tb-btn-ghost">Filter</button>
+    </form>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr>
+        <th>Confirmation</th><th>Guest</th><th>Date & Time</th><th>Guests</th><th>Seating</th><th>Status</th><th>Actions</th>
+      </tr></thead>
+      <tbody>
+        {% for r in reservations %}
+        <tr>
+          <td class="td-main" style="font-family:monospace;font-size:.75rem">{{ r.confirmation_no }}</td>
+          <td>
+            <div class="td-main">{{ r.full_name }}</div>
+            <div style="font-size:.7rem;color:var(--t3)">{{ r.email }}</div>
+          </td>
+          <td>
+            <div>{{ r.date }}</div>
+            <div style="font-size:.7rem;color:var(--t3)">{{ r.get_time_display }}</div>
+          </td>
+          <td>{{ r.guests }}</td>
+          <td>{{ r.get_seating_display }}</td>
+          <td>
+            <form method="POST" action="{% url 'four_admin:reservation_status' r.pk %}" style="display:inline">
+              {% csrf_token %}
+              <select name="status" class="finp" style="padding:4px 8px;font-size:.72rem;width:auto" onchange="this.form.submit()">
+                <option value="pending" {% if r.status == 'pending' %}selected{% endif %}>Pending</option>
+                <option value="confirmed" {% if r.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                <option value="seated" {% if r.status == 'seated' %}selected{% endif %}>Seated</option>
+                <option value="completed" {% if r.status == 'completed' %}selected{% endif %}>Completed</option>
+                <option value="cancelled" {% if r.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                <option value="no_show" {% if r.status == 'no_show' %}selected{% endif %}>No Show</option>
+              </select>
+            </form>
+          </td>
+          <td>
+            <div class="tbl-actions">
+              <a href="{% url 'four_admin:reservation_detail' r.pk %}" class="tbl-btn" title="View">👁</a>
+              <a href="{% url 'four_admin:reservation_delete' r.pk %}" class="tbl-btn tbl-btn-del" title="Delete" onclick="return confirm('Delete this reservation?')">✕</a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7"><div class="empty"><div class="empty-icon">🗓️</div><div class="empty-title">No reservations found</div></div></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

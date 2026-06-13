@@ -1,0 +1,105 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}{% if item %}Edit{% else %}Add{% endif %} Menu Item{% endblock %}
+{% block page_title %}{% if item %}Edit Menu Item{% else %}Add Menu Item{% endif %}{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="grid-2" style="gap:24px;align-items:start">
+    <!-- LEFT: Main fields -->
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="card">
+        <div class="card-head"><div class="card-title">Item Details</div></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="fg full">
+              <label class="flbl">Item Name *</label>
+              <input type="text" name="name" class="finp" value="{{ item.name|default:'' }}" placeholder="e.g. Texas Flaming Hot Beef Burger" required>
+            </div>
+            <div class="fg">
+              <label class="flbl">Category *</label>
+              <select name="category" class="finp" required>
+                {% for val, label in categories %}
+                <option value="{{ val }}" {% if item.category == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="fg">
+              <label class="flbl">Price (PKR) *</label>
+              <input type="number" name="price" class="finp" value="{{ item.price|default:'' }}" placeholder="949" step="0.01" required>
+            </div>
+            <div class="fg full">
+              <label class="flbl">Description</label>
+              <textarea name="description" class="finp" placeholder="Describe the item…">{{ item.description|default:'' }}</textarea>
+            </div>
+            <div class="fg">
+              <label class="flbl">Allergens</label>
+              <input type="text" name="allergens" class="finp" value="{{ item.allergens|default:'' }}" placeholder="e.g. Gluten, Dairy">
+            </div>
+            <div class="fg">
+              <label class="flbl">Calories</label>
+              <input type="number" name="calories" class="finp" value="{{ item.calories|default:'' }}" placeholder="650">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><div class="card-title">Flags</div></div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:14px">
+          {% for flag, label, checked in flags %}
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+            <input type="checkbox" name="{{ flag }}" {% if checked %}checked{% endif %}
+              style="width:16px;height:16px;accent-color:var(--red)">
+            <span style="font-size:.82rem;color:var(--t2)">{{ label }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Image + submit -->
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div class="card">
+        <div class="card-head"><div class="card-title">Item Image</div></div>
+        <div class="card-body">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" style="width:100%;height:180px;object-fit:cover;border-radius:8px;margin-bottom:14px;border:1px solid var(--border)">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:10px">
+            <input type="checkbox" name="clear_image" style="accent-color:var(--red)">
+            <span style="font-size:.78rem;color:var(--t3)">Remove current image</span>
+          </label>
+          {% endif %}
+          <div style="border:2px dashed var(--border);border-radius:8px;padding:30px;text-align:center;cursor:pointer" onclick="document.getElementById('img-inp').click()">
+            <div style="font-size:1.5rem;margin-bottom:8px">📷</div>
+            <div style="font-size:.78rem;color:var(--t3)">Click to upload image</div>
+            <div style="font-size:.68rem;color:var(--t3);margin-top:4px">JPG, PNG, WebP — max 5MB</div>
+          </div>
+          <input type="file" name="image" id="img-inp" accept="image/*" style="display:none" onchange="previewImg(this)">
+          <img id="img-preview" style="display:none;width:100%;height:180px;object-fit:cover;border-radius:8px;margin-top:12px;border:1px solid var(--border)">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body" style="display:flex;gap:10px">
+          <button type="submit" class="fsub" style="flex:1">{% if item %}Save Changes{% else %}Add Item{% endif %}</button>
+          <a href="{% url 'four_admin:menu_list' %}" class="f-cancel">Cancel</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function previewImg(input) {
+  const prev = document.getElementById('img-preview');
+  if (input.files && input.files[0]) {
+    const r = new FileReader();
+    r.onload = e => { prev.src = e.target.result; prev.style.display = 'block'; };
+    r.readAsDataURL(input.files[0]);
+  }
+}
+</script>
+{% endblock %}

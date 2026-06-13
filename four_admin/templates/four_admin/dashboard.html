@@ -1,0 +1,161 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard <span style="font-size:.7rem;color:var(--t3);font-weight:400;margin-left:8px">Good {% now "G" as h %}{% if h < 12 %}morning{% elif h < 17 %}afternoon{% else %}evening{% endif %}, {{ request.user.first_name|default:request.user.username }}</span>{% endblock %}
+
+{% block content %}
+<!-- STAT CARDS -->
+<div class="grid-4 mb-24">
+  <div class="stat">
+    <div class="stat-pulse"></div>
+    <div class="stat-icon">🍔</div>
+    <div class="stat-num" data-val="{{ total_menu_items }}">{{ total_menu_items }}</div>
+    <div class="stat-lbl">Menu Items</div>
+    <div class="stat-change stat-up">↑ Active</div>
+  </div>
+  <div class="stat">
+    <div class="stat-pulse"></div>
+    <div class="stat-icon">🗓️</div>
+    <div class="stat-num" data-val="{{ total_reservations }}">{{ total_reservations }}</div>
+    <div class="stat-lbl">Reservations</div>
+    <div class="stat-change stat-yellow" style="background:rgba(250,204,21,.12);color:#facc15">{{ pending_reservations }} pending</div>
+  </div>
+  <div class="stat">
+    <div class="stat-pulse"></div>
+    <div class="stat-icon">✉️</div>
+    <div class="stat-num" data-val="{{ total_subscribers }}">{{ total_subscribers }}</div>
+    <div class="stat-lbl">Subscribers</div>
+    <div class="stat-change stat-up">↑ Growing</div>
+  </div>
+  <div class="stat">
+    <div class="stat-pulse"></div>
+    <div class="stat-icon">💬</div>
+    <div class="stat-num" data-val="{{ total_messages }}">{{ total_messages }}</div>
+    <div class="stat-lbl">Messages</div>
+    {% if unread_messages %}<div class="stat-change stat-down">{{ unread_messages }} unread</div>{% endif %}
+  </div>
+</div>
+
+<div class="grid-2 mb-24">
+  <!-- RECENT RESERVATIONS -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">Recent Reservations</div>
+      <a href="{% url 'four_admin:reservations' %}" class="tb-btn tb-btn-ghost" style="font-size:.68rem;padding:5px 12px">View All</a>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Guest</th><th>Date</th><th>Guests</th><th>Status</th>
+        </tr></thead>
+        <tbody>
+          {% for r in recent_reservations %}
+          <tr>
+            <td class="td-main">{{ r.full_name }}</td>
+            <td>{{ r.date }}</td>
+            <td>{{ r.guests }}</td>
+            <td>
+              {% if r.status == 'confirmed' %}<span class="badge badge-green">Confirmed</span>
+              {% elif r.status == 'pending' %}<span class="badge badge-yellow">Pending</span>
+              {% elif r.status == 'cancelled' %}<span class="badge badge-red">Cancelled</span>
+              {% else %}<span class="badge badge-grey">{{ r.status }}</span>{% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="4"><div class="empty"><div class="empty-icon">🗓️</div><div class="empty-title">No reservations yet</div></div></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RECENT MESSAGES -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">Recent Messages</div>
+      <a href="{% url 'four_admin:messages_list' %}" class="tb-btn tb-btn-ghost" style="font-size:.68rem;padding:5px 12px">View All</a>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>From</th><th>Subject</th><th>Time</th>
+        </tr></thead>
+        <tbody>
+          {% for msg in recent_messages %}
+          <tr>
+            <td class="td-main">{{ msg.name }}</td>
+            <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ msg.subject }}</td>
+            <td style="white-space:nowrap">{{ msg.created_at|timesince }} ago</td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="3"><div class="empty"><div class="empty-icon">💬</div><div class="empty-title">No messages yet</div></div></td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="card mb-24">
+  <div class="card-head"><div class="card-title">Quick Actions</div></div>
+  <div class="card-body" style="display:flex;gap:12px;flex-wrap:wrap">
+    <a href="{% url 'four_admin:menu_add' %}" class="tb-btn tb-btn-red">+ Add Menu Item</a>
+    <a href="{% url 'four_admin:events_add' %}" class="tb-btn tb-btn-ghost">+ Add Event</a>
+    <a href="{% url 'four_admin:gallery_add' %}" class="tb-btn tb-btn-ghost">+ Add Gallery Image</a>
+    <a href="{% url 'four_admin:staff_add' %}" class="tb-btn tb-btn-ghost">+ Add Staff Member</a>
+    <a href="{% url 'four_admin:reservations' %}?status=pending" class="tb-btn tb-btn-ghost">📋 Pending Reservations</a>
+  </div>
+</div>
+
+<!-- MORE STATS ROW -->
+<div class="grid-3">
+  <div class="card">
+    <div class="card-head"><div class="card-title">Menu Overview</div></div>
+    <div class="card-body">
+      {% for cat, count in menu_by_category.items %}
+      <div class="flex justify-between items-center" style="margin-bottom:10px">
+        <span style="font-size:.8rem;color:var(--t2)">{{ cat }}</span>
+        <span style="font-size:.8rem;font-weight:600;color:var(--t1)">{{ count }} items</span>
+      </div>
+      {% endfor %}
+      {% if not menu_by_category %}<div class="empty"><div class="empty-icon">🍔</div><div class="empty-title">No menu items</div></div>{% endif %}
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">Gallery Stats</div></div>
+    <div class="card-body">
+      <div class="flex justify-between items-center mb-20">
+        <span style="font-size:.8rem;color:var(--t2)">Total Images</span>
+        <span class="fw-600">{{ total_gallery }}</span>
+      </div>
+      <div class="flex justify-between items-center mb-20">
+        <span style="font-size:.8rem;color:var(--t2)">Featured</span>
+        <span class="fw-600">{{ featured_gallery }}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span style="font-size:.8rem;color:var(--t2)">Total Events</span>
+        <span class="fw-600">{{ total_events }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><div class="card-title">Reviews Overview</div></div>
+    <div class="card-body">
+      <div class="flex justify-between items-center mb-20">
+        <span style="font-size:.8rem;color:var(--t2)">Total Reviews</span>
+        <span class="fw-600">{{ total_reviews }}</span>
+      </div>
+      <div class="flex justify-between items-center mb-20">
+        <span style="font-size:.8rem;color:var(--t2)">Pending Approval</span>
+        <span class="fw-600 text-red">{{ pending_reviews }}</span>
+      </div>
+      <div class="flex justify-between items-center">
+        <span style="font-size:.8rem;color:var(--t2)">Avg Rating</span>
+        <span class="fw-600">⭐ {{ avg_rating|floatformat:1 }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

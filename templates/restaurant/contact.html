@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact — {{ RESTAURANT_NAME }}{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=1600&q=40" alt="Contact FOUR Restaurant" class="page-hero-img" loading="eager">
+  <div class="page-hero-ov"></div>
+  <div class="page-hero-body">
+    <div class="eyebrow" style="justify-content:center">Get in Touch</div>
+    <h1 class="heading h2" style="text-align:center">We'd Love to <em>Hear</em><br>From You</h1>
+  </div>
+</section>
+
+<section style="padding:100px 0;background:var(--b1)">
+  <div class="container">
+    <!-- INFO STRIP -->
+    <div class="ct-grid rv" style="margin-bottom:80px">
+      <div class="ct-col">
+        <div class="eyebrow">Our Location</div>
+        <p class="ct-text">Plaza No. 51, Fairways Commercial,<br>Defence Raya Golf Resort, Sector M,<br>DHA Phase 6, Lahore, Pakistan</p>
+        <br>
+        <a href="https://maps.google.com/?q=FOUR+Restaurant+DHA+Phase+6+Lahore" target="_blank" rel="noopener" class="btn-ghost">Get Directions ↗</a>
+      </div>
+      <div class="ct-col">
+        <div class="eyebrow">Dining Hours</div>
+        <p class="ct-text" style="margin-bottom:6px">Monday – Sunday: <span style="color:var(--t1)">1:00 PM – 3:00 AM</span></p>
+        <p class="ct-text" style="margin-bottom:6px">Open daily — no days off!</p>
+        <br>
+        <p class="ct-text" style="font-size:.75rem;color:var(--t3)">Delivery available 45 mins across<br>DHA Phases 1–8, Askari XI &amp; more</p>
+      </div>
+      <div class="ct-col">
+        <div class="eyebrow">Contact</div>
+        <div class="ct-item"><span class="ct-icon">📞</span><a href="tel:+923251231222" class="ct-text" style="transition:color .3s">+92 325 1231222</a></div>
+        <div class="ct-item"><span class="ct-icon">✉️</span><a href="mailto:info@fourrestaurant.pk" class="ct-text" style="transition:color .3s">info@fourrestaurant.pk</a></div>
+        <div class="ct-item"><span class="ct-icon">💬</span><span class="ct-text">WhatsApp orders on +92 325 1231222</span></div>
+        <div class="ct-item"><span class="ct-icon">🚗</span><span class="ct-text">Parking available at DHA Raya</span></div>
+        <div class="ct-item"><span class="ct-icon">♿</span><span class="ct-text">Wheelchair accessible entrance &amp; restrooms</span></div>
+      </div>
+    </div>
+
+    <!-- CONTACT FORM + MAP -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start">
+
+      <div class="rv">
+        <div class="eyebrow">Send a Message</div>
+        <h2 class="heading h3" style="margin-bottom:8px">Get in <em>Touch</em></h2>
+        <p class="body-text" style="margin-bottom:36px">For reservations, private events, feedback, or any questions — our team will respond within one business day.</p>
+        <form id="contact-form" method="POST" novalidate>
+          {% csrf_token %}
+          {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+          <div class="fg">
+            <label class="flbl">Full Name</label>{{ form.name }}
+            {% if form.name.errors %}<span class="field-err">{{ form.name.errors.0 }}</span>{% endif %}
+          </div>
+          <div class="fg">
+            <label class="flbl">Email Address</label>{{ form.email }}
+            {% if form.email.errors %}<span class="field-err">{{ form.email.errors.0 }}</span>{% endif %}
+          </div>
+          <div class="fg">
+            <label class="flbl">Subject</label>{{ form.subject }}
+            {% if form.subject.errors %}<span class="field-err">{{ form.subject.errors.0 }}</span>{% endif %}
+          </div>
+          <div class="fg">
+            <label class="flbl">Your Message</label>{{ form.message }}
+            {% if form.message.errors %}<span class="field-err">{{ form.message.errors.0 }}</span>{% endif %}
+          </div>
+          <button type="submit" class="fsub" id="contact-submit">Send Message</button>
+        </form>
+      </div>
+
+      <div class="rv d2">
+        <!-- Embedded Map — FOUR Restaurant DHA Phase 6 Lahore -->
+        <div class="map-wrap">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3401.5!2d74.3587!3d31.4697!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391904a6a4d0b7c9%3A0x0!2sDHA+Phase+6+Lahore!5e0!3m2!1sen!2spk!4v1700000000000"
+            width="100%" height="380" style="border:0;filter:grayscale(80%) contrast(110%)"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="FOUR Restaurant Location — DHA Phase 6 Lahore">
+          </iframe>
+        </div>
+
+        <!-- Delivery Areas -->
+        <div style="margin-top:40px;padding:36px;background:var(--b3);border:1px solid var(--border)">
+          <div class="eyebrow" style="margin-bottom:20px">🚗 Delivery Areas</div>
+          <p class="body-text" style="margin-bottom:14px;font-size:.82rem">We deliver in <strong style="color:var(--t1)">45 minutes</strong> to:</p>
+          <p class="ct-text" style="font-size:.8rem;line-height:2">DHA Phases 1–8 · Askari XI · Bhatta Chowk · Jamu Stop · Lidher · Alfalah Town</p>
+          <br>
+          <a href="tel:+923251231222" class="btn btn-gold" style="font-size:.65rem;padding:12px 28px">
+            📞 Order Now: +92 325 1231222
+          </a>
+        </div>
+
+        <!-- Social Links -->
+        <div style="margin-top:20px;padding:36px;background:var(--b3);border:1px solid var(--border)">
+          <div class="eyebrow" style="margin-bottom:20px">Follow FOUR</div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <a href="https://www.instagram.com/fourpakistan" target="_blank" rel="noopener" class="fsoc" style="width:auto;padding:10px 20px;gap:8px;font-size:.72rem;letter-spacing:.12em" aria-label="Instagram">◈ Instagram</a>
+            <a href="#" class="fsoc" style="width:auto;padding:10px 20px;gap:8px;font-size:.72rem;letter-spacing:.12em" aria-label="Facebook">ƒ Facebook</a>
+            <a href="#" class="fsoc" style="width:auto;padding:10px 20px;gap:8px;font-size:.72rem;letter-spacing:.12em" aria-label="TikTok">♪ TikTok</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('contact-submit');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  const fd = new FormData(this);
+  try {
+    const r = await fetch(window.location.pathname, {
+      method: 'POST', body: fd,
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    });
+    const d = await r.json();
+    showToast(d.success ? '✓ ' + d.message : '⚠ ' + Object.values(d.errors||{}).flat().join(' · '));
+    if (d.success) this.reset();
+  } catch { showToast('Something went wrong. Please call us directly on +92 325 1231222.'); }
+  finally { btn.textContent = 'Send Message'; btn.disabled = false; }
+});
+</script>
+{% endblock %}

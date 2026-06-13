@@ -1,0 +1,375 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FOUR Restaurant — Lahore's Premier Fast Food Experience{% endblock %}
+
+{% block content %}
+
+<!-- ── HERO ──────────────────────────────────────── -->
+<section id="hero" aria-label="Hero">
+  <div class="hs on" id="hs0">
+    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1600&q=82" alt="Smash Burger" loading="eager">
+  </div>
+  <div class="hs" id="hs1">
+    <img src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=1600&q=82" alt="FOUR Restaurant Interior">
+  </div>
+  <div class="hs" id="hs2">
+    <img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=1600&q=82" alt="Loaded Fries">
+  </div>
+  <div class="hero-ov"></div>
+  <div class="hero-bot"></div>
+  <div class="hero-body">
+    <div class="hero-tag">Est. 2023 &nbsp;✦&nbsp; DHA Phase 6, Lahore &nbsp;✦&nbsp; Open Till 3 AM</div>
+    <h1 class="heading h1 hero-h1">Where <em>Bold</em><br>Flavours<br>Live</h1>
+    <p class="hero-sub">Lahore's most talked-about fast food destination — crafting legendary smash burgers, loaded fries, and crave-worthy pizzas every single day.</p>
+    <div class="hero-ctas">
+      <a href="{% url 'reservation' %}" class="btn btn-gold">
+        Book a Table
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="{% url 'menu' %}" class="btn btn-outline">Explore Menu</a>
+      <a href="{% url 'events' %}" class="btn-ghost">View Events</a>
+    </div>
+  </div>
+  <div class="hero-dots" id="hero-dots">
+    <div class="hd on" data-s="0"></div>
+    <div class="hd" data-s="1"></div>
+    <div class="hd" data-s="2"></div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- ── TICKER ─────────────────────────────────────── -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <div class="ti-item">🍔 Beef Smash Burgers <span>✦</span></div>
+    <div class="ti-item">🍟 Loaded Curly Fries <span>✦</span></div>
+    <div class="ti-item">🍕 Malai Crust Pizza <span>✦</span></div>
+    <div class="ti-item">🌯 Malai Boti Calzone <span>✦</span></div>
+    <div class="ti-item">🚗 45-Min Delivery — DHA Phases 1–8 <span>✦</span></div>
+    <div class="ti-item">🕐 Open Daily 1 PM – 3 AM <span>✦</span></div>
+    <div class="ti-item">🍔 Beef Smash Burgers <span>✦</span></div>
+    <div class="ti-item">🍟 Loaded Curly Fries <span>✦</span></div>
+    <div class="ti-item">🍕 Malai Crust Pizza <span>✦</span></div>
+    <div class="ti-item">🌯 Malai Boti Calzone <span>✦</span></div>
+    <div class="ti-item">🚗 45-Min Delivery — DHA Phases 1–8 <span>✦</span></div>
+    <div class="ti-item">🕐 Open Daily 1 PM – 3 AM <span>✦</span></div>
+  </div>
+</div>
+
+<!-- ── FEATURED DISHES ────────────────────────────── -->
+<section id="dishes" style="padding:130px 0">
+  <div class="container">
+    <div class="sec-header">
+      <div>
+        <div class="eyebrow rv">Fan Favourites</div>
+        <h2 class="heading h2 rv d1">Our Most <em>Craved</em><br>Creations</h2>
+      </div>
+      <div class="rv d2" style="max-width:380px">
+        <p class="body-text">From our signature Texas Flaming Hot Beef Burger to New York Fries loaded with minced beef — every bite is built to impress.</p>
+        <br><a href="{% url 'menu' %}" class="btn-ghost">View Full Menu</a>
+      </div>
+    </div>
+    <div class="dishes-grid rv d1">
+      {% for dish in featured_dishes %}
+      <div class="dc">
+        <img src="{{ dish.get_image }}" alt="{{ dish.name }}" {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %}>
+        <div class="dc-ov"></div>
+        <div class="dc-body">
+          <div class="dc-cat">{{ dish.get_category_display }}{% if dish.is_chef_pick %} · Fan Favourite{% endif %}</div>
+          <h3 class="dc-name">{{ dish.name }}</h3>
+          <p class="dc-desc">{{ dish.description }}</p>
+          <div class="dc-price">Rs. {{ dish.price|floatformat:0 }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── CHEF ───────────────────────────────────────── -->
+{% if chef %}
+<section id="chef-preview" style="padding:140px 0;background:var(--b2)">
+  <div class="container">
+    <div class="chef-grid">
+      <div class="chef-imgs rv">
+        <div class="chef-badge">
+          <span class="chef-badge-n">{{ chef.years_experience }}</span>
+          <span class="chef-badge-t">Years of<br>Excellence</span>
+        </div>
+        <img class="chef-main" src="{{ chef.get_image }}" alt="{{ chef.name }}" loading="lazy">
+        {% if chef.get_accent_image %}
+        <img class="chef-accent" src="{{ chef.get_accent_image }}" alt="Chef cooking" loading="lazy">
+        {% endif %}
+      </div>
+      <div class="chef-content rv d2">
+        <div class="eyebrow">The Visionary</div>
+        <h2 class="heading h2" style="margin-bottom:28px">Head Chef<br><em>{{ chef.name }}</em></h2>
+        {% if chef.quote %}
+        <blockquote class="chef-quote">{{ chef.quote }}</blockquote>
+        {% endif %}
+        <p class="chef-name heading h4">{{ chef.name }}</p>
+        <p class="chef-role">{{ chef.role }}</p>
+        <p class="chef-bio">{{ chef.bio }}</p>
+        <div class="chef-stats">
+          <div class="cs"><span class="cs-num">{{ chef.michelin_stars }}</span><span class="cs-lbl">Awards Won</span></div>
+          <div class="cs"><span class="cs-num">{{ chef.awards_count }}</span><span class="cs-lbl">Menu Items</span></div>
+          <div class="cs"><span class="cs-num">{{ chef.cookbooks_count }}</span><span class="cs-lbl">Years Exp.</span></div>
+        </div>
+        <a href="{% url 'chef' %}" class="btn btn-outline">Meet the Team</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ── EXPERIENCE PILLARS ─────────────────────────── -->
+<section style="padding:120px 0;background:var(--b1)">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="eyebrow rv" style="justify-content:center">Why FOUR?</div>
+      <h2 class="heading h2 rv d1" style="text-align:center">The <em>FOUR</em> Experience</h2>
+    </div>
+    <div class="exp-grid rv d2">
+      <div class="exp-item">
+        <span class="exp-icon">🍔</span>
+        <h3 class="exp-title heading h4">Premium Smash Burgers</h3>
+        <p class="exp-desc">Hand-pressed beef patties, toasted brioche buns, and flavour combinations you won't find anywhere else in Lahore.</p>
+      </div>
+      <div class="exp-item">
+        <span class="exp-icon">🚀</span>
+        <h3 class="exp-title heading h4">45-Minute Delivery</h3>
+        <p class="exp-desc">Hot, fresh delivery across DHA Phases 1–8, Askari XI, Bhatta Chowk, Jamu Stop, Lidher, and Alfalah Town.</p>
+      </div>
+      <div class="exp-item">
+        <span class="exp-icon">🌙</span>
+        <h3 class="exp-title heading h4">Open Late — Till 3 AM</h3>
+        <p class="exp-desc">Late-night cravings sorted. FOUR is open daily from 1 PM to 3 AM so you never have to sleep hungry.</p>
+      </div>
+      <div class="exp-item">
+        <span class="exp-icon">🏠</span>
+        <h3 class="exp-title heading h4">Triple-Story Diner</h3>
+        <p class="exp-desc">A trendy, spacious venue in DHA Raya with luxury counter seating, perfect for families, friends, and dates.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ───────────────────────────────── -->
+<section id="testi" style="padding:140px 0;background:var(--b2);overflow:hidden">
+  <div class="container">
+    <div class="sec-header">
+      <div>
+        <div class="eyebrow rv">Guest Reviews</div>
+        <h2 class="heading h2 rv d1">What Our <em>Guests</em> Say</h2>
+      </div>
+      <div class="testi-nav">
+        <button class="tn" id="tp" aria-label="Previous">←</button>
+        <button class="tn" id="tn-btn" aria-label="Next">→</button>
+      </div>
+    </div>
+  </div>
+  <div class="testi-wrap">
+    <div class="testi-track" id="testi-track">
+      {% for t in testimonials %}
+      <div class="tc">
+        <div class="tc-stars">{{ t.stars }}</div>
+        <p class="tc-quote">"{{ t.quote }}"</p>
+        <div class="tc-author">
+          {% if t.get_avatar %}
+          <img class="tc-avatar" src="{{ t.get_avatar }}" alt="{{ t.name }}" loading="lazy">
+          {% endif %}
+          <div>
+            <div class="tc-name">{{ t.name }}</div>
+            <div class="tc-meta">{{ t.role }}</div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── AWARDS ─────────────────────────────────────── -->
+<section style="padding:72px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <div class="eyebrow rv" style="justify-content:center;margin-bottom:48px">Recognition & Highlights</div>
+    <div class="awards-grid rv">
+      {% for award in awards %}
+      <div class="aw">
+        <span class="aw-icon">{{ award.icon }}</span>
+        <div class="aw-name heading">{{ award.name }}</div>
+        <div class="aw-yr">{% if award.subtitle %}{{ award.subtitle }}{% endif %} {% if award.year_range %}· {{ award.year_range }}{% endif %}</div>
+      </div>
+      {% empty %}
+      <div class="aw"><span class="aw-icon">🍔</span><div class="aw-name heading">Best Smash Burger</div><div class="aw-yr">Lahore Food Awards · 2024</div></div>
+      <div class="aw"><span class="aw-icon">🏆</span><div class="aw-name heading">Top Restaurant</div><div class="aw-yr">DHA Lahore · 2024</div></div>
+      <div class="aw"><span class="aw-icon">⭐</span><div class="aw-name heading">500K+ Orders</div><div class="aw-yr">Since Opening · 2023</div></div>
+      <div class="aw"><span class="aw-icon">📱</span><div class="aw-name heading">1M+ Social Fans</div><div class="aw-yr">Instagram & TikTok</div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY PREVIEW ────────────────────────────── -->
+<section style="padding:140px 0;background:var(--b2)">
+  <div class="container">
+    <div class="sec-header">
+      <div>
+        <div class="eyebrow rv">Visual Journey</div>
+        <h2 class="heading h2 rv d1">A Feast for <em>the Eyes</em></h2>
+      </div>
+      <a href="{% url 'gallery' %}" class="btn-ghost rv d2">Full Gallery</a>
+    </div>
+    <div class="gal-grid rv d1">
+      {% for img in gallery_images %}
+      <div class="gi" onclick="openLB(this)">
+        <img src="{{ img.get_image }}" alt="{{ img.title }}" loading="lazy">
+        <div class="gi-ov">⊕</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── EVENTS ─────────────────────────────────────── -->
+<section style="padding:140px 0">
+  <div class="container">
+    <div class="sec-header">
+      <div>
+        <div class="eyebrow rv">What's On</div>
+        <h2 class="heading h2 rv d1">Upcoming <em>Events</em></h2>
+      </div>
+      <a href="{% url 'events' %}" class="btn-ghost rv d2">All Events</a>
+    </div>
+    <div class="ev-grid rv d1">
+      {% for event in events %}
+      <div class="ev">
+        <div class="ev-img">
+          <img src="{{ event.get_image }}" alt="{{ event.title }}" loading="lazy">
+        </div>
+        <div class="ev-body">
+          <div class="ev-date">{{ event.display_date }}</div>
+          <h3 class="ev-title heading">{{ event.title }}</h3>
+          <p class="ev-desc">{{ event.short_desc|default:event.description|truncatewords:20 }}</p>
+          <a href="{% url 'event_detail' event.slug %}" class="btn btn-outline" style="font-size:.66rem;padding:12px 28px">Learn More</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ── INLINE RESERVATION ─────────────────────────── -->
+<section id="reservation" style="padding:140px 0;background:var(--b2);position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=1600&q=10') center/cover;opacity:.04"></div>
+  <div class="container" style="position:relative">
+    <div class="res-grid">
+      <div class="rv">
+        <div class="eyebrow">Book Your Table</div>
+        <h2 class="heading h2">Reserve Your<br><em>Spot</em></h2>
+        <p class="body-text" style="max-width:380px;margin-top:16px">Grab a table at FOUR before it fills up — walk-ins welcome but reservations get priority seating in our triple-story diner.</p>
+        <div class="res-feats">
+          <div class="rf"><div class="rf-icon">🗓️</div><div><p class="rf-title">Easy Booking</p><p class="rf-desc">Instant table confirmation — no waiting</p></div></div>
+          <div class="rf"><div class="rf-icon">🎉</div><div><p class="rf-title">Special Occasions</p><p class="rf-desc">Birthday and celebration arrangements available</p></div></div>
+          <div class="rf"><div class="rf-icon">🍽️</div><div><p class="rf-title">Group Dining</p><p class="rf-desc">Spacious seating for large groups and families</p></div></div>
+          <div class="rf"><div class="rf-icon">📞</div><div><p class="rf-title">Call Us</p><p class="rf-desc">+92 325 1231222 — Open daily 1 PM to 3 AM</p></div></div>
+        </div>
+      </div>
+      <div class="res-form rv d2">
+        <h3 class="form-title heading">Make a Reservation</h3>
+        <p class="form-sub">Fill in the form and we'll confirm within a few hours</p>
+        <form id="res-form-home" novalidate>
+          {% csrf_token %}
+          <div class="frow">
+            <div class="fg"><label class="flbl">First Name</label><input type="text" class="finp" name="first_name" placeholder="Ahmed" required></div>
+            <div class="fg"><label class="flbl">Last Name</label><input type="text" class="finp" name="last_name" placeholder="Khan" required></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label class="flbl">Email</label><input type="email" class="finp" name="email" placeholder="ahmed@example.com" required></div>
+            <div class="fg"><label class="flbl">Phone</label><input type="tel" class="finp" name="phone" placeholder="+92 300 0000000"></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label class="flbl">Date</label><input type="date" class="finp" name="date" id="res-date" required></div>
+            <div class="fg"><label class="flbl">Time</label>
+              <select class="finp" name="time">
+                <option value="13:00">1:00 PM</option><option value="14:00">2:00 PM</option>
+                <option value="15:00">3:00 PM</option><option value="16:00">4:00 PM</option>
+                <option value="17:00">5:00 PM</option><option value="18:00">6:00 PM</option>
+                <option value="19:00">7:00 PM</option><option value="20:00" selected>8:00 PM</option>
+                <option value="21:00">9:00 PM</option><option value="22:00">10:00 PM</option>
+                <option value="23:00">11:00 PM</option><option value="00:00">12:00 AM</option>
+                <option value="01:00">1:00 AM</option><option value="02:00">2:00 AM</option>
+              </select>
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label class="flbl">Guests</label>
+              <select class="finp" name="guests">
+                {% for i in "12345678" %}<option value="{{ forloop.counter }}">{{ forloop.counter }} Guest{% if forloop.counter > 1 %}s{% endif %}</option>{% endfor %}
+              </select>
+            </div>
+            <div class="fg"><label class="flbl">Seating</label>
+              <select class="finp" name="seating">
+                <option value="main">Main Dining Floor</option>
+                <option value="private">Private Room</option>
+                <option value="chefs">Counter Seating</option>
+                <option value="terrace">Outdoor Terrace</option>
+                <option value="bar">Lounge Area</option>
+              </select>
+            </div>
+          </div>
+          <div class="fg"><label class="flbl">Special Requests</label>
+            <textarea class="finp" name="special_requests" style="min-height:80px" placeholder="Celebrations, dietary requirements, large groups…"></textarea>
+          </div>
+          <button type="submit" class="fsub">Confirm Reservation</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Home page reservation AJAX ──────────────────────
+document.getElementById('res-form-home').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('.fsub');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  const fd = new FormData(this);
+  try {
+    const r = await fetch("{% url 'reservation' %}", {
+      method: 'POST',
+      body: fd,
+      headers: {'X-Requested-With': 'XMLHttpRequest'},
+    });
+    const d = await r.json();
+    showToast(d.message);
+    if (d.success) this.reset();
+  } catch { showToast('Something went wrong. Please try again.'); }
+  finally { btn.textContent = 'Confirm Reservation'; btn.disabled = false; }
+});
+
+// ── Testimonials carousel ───────────────────────────
+(function() {
+  const track = document.getElementById('testi-track');
+  if (!track) return;
+  let pos = 0;
+  const cardW = 410;
+  const count = track.children.length;
+  document.getElementById('tp').addEventListener('click', () => {
+    pos = Math.max(0, pos - 1);
+    track.style.transform = `translateX(-${pos * cardW}px)`;
+  });
+  document.getElementById('tn-btn').addEventListener('click', () => {
+    pos = Math.min(count - 2, pos + 1);
+    track.style.transform = `translateX(-${pos * cardW}px)`;
+  });
+})();
+</script>
+{% endblock %}

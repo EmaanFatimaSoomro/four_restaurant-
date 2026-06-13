@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery — {{ RESTAURANT_NAME }}{% endblock %}
+{% block meta_desc %}A visual journey through Aurum — restaurant ambiance, exquisite food photography, and our most memorable events.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=60" alt="Aurum Gallery" class="page-hero-img" loading="eager">
+  <div class="page-hero-ov"></div>
+  <div class="page-hero-body">
+    <div class="eyebrow" style="justify-content:center">Visual Journey</div>
+    <h1 class="heading h2" style="text-align:center">A Feast for <em>the Eyes</em></h1>
+  </div>
+</section>
+
+<section style="padding:80px 0 140px;background:var(--b1)">
+  <div class="container">
+
+    <!-- Category Filter -->
+    <div class="menu-tabs rv" style="margin-bottom:56px">
+      <a href="?cat=all" class="mt {% if active_cat == 'all' %}on{% endif %}">All</a>
+      {% for cat_val, cat_label in categories %}
+      <a href="?cat={{ cat_val }}" class="mt {% if active_cat == cat_val %}on{% endif %}">{{ cat_label }}</a>
+      {% endfor %}
+    </div>
+
+    <!-- Masonry-style Grid -->
+    <div class="gal-full-grid rv d1" id="gal-grid">
+      {% for img in images %}
+      <div class="gal-item" onclick="openLB(this)">
+        <img src="{{ img.get_image }}" alt="{{ img.title }}" loading="lazy">
+        <div class="gal-item-ov">
+          <div class="gal-item-info">
+            {% if img.title %}<p class="gal-item-title">{{ img.title }}</p>{% endif %}
+            {% if img.caption %}<p class="gal-item-caption">{{ img.caption }}</p>{% endif %}
+          </div>
+          <span class="gal-item-plus">⊕</span>
+        </div>
+      </div>
+      {% empty %}
+      <div style="grid-column:1/-1;text-align:center;padding:80px 0">
+        <p class="body-text">No images in this category yet.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if images %}
+    <div style="text-align:center;margin-top:60px" class="rv">
+      <p class="body-text" style="margin-bottom:24px">Want to see more? Follow us on Instagram @aurum_nyc</p>
+      <a href="{% url 'reservation' %}" class="btn btn-gold">Reserve Your Table</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

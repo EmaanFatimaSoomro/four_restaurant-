@@ -1,0 +1,25 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Add Gallery Image{% endblock %}
+{% block page_title %}Add Gallery Image{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data" style="max-width:500px">
+  {% csrf_token %}
+  <div class="card mb-24">
+    <div class="card-head"><div class="card-title">Image Details</div></div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="fg full"><label class="flbl">Title</label><input type="text" name="title" class="finp" placeholder="e.g. Smash Burger Close-up"></div>
+        <div class="fg full"><label class="flbl">Category</label>
+          <select name="category" class="finp">
+            {% for val, label in categories %}<option value="{{ val }}">{{ label }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="fg full"><label class="flbl">Image *</label><input type="file" name="image" class="finp" accept="image/*" required></div>
+        <div class="fg"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" name="is_active" checked style="accent-color:var(--red)"><span class="flbl" style="margin:0">Active</span></label></div>
+        <div class="fg"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" name="is_featured" style="accent-color:var(--red)"><span class="flbl" style="margin:0">Featured on homepage</span></label></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px"><button type="submit" class="fsub">Upload Image</button><a href="{% url 'four_admin:gallery' %}" class="f-cancel">Cancel</a></div>
+</form>
+{% endblock %}

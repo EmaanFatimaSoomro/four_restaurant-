@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Reservation Confirmed — {{ RESTAURANT_NAME }}{% endblock %}
+
+{% block content %}
+<section style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:120px 0;background:var(--b1)">
+  <div class="container" style="text-align:center;max-width:640px">
+    <div style="font-size:3rem;margin-bottom:28px">🥂</div>
+    <div class="eyebrow rv" style="justify-content:center">Confirmed</div>
+    <h1 class="heading h2 rv d1">Your Reservation<br>is <em>Received</em></h1>
+    <p class="body-text rv d2" style="margin:20px auto 0;max-width:480px">
+      Thank you for choosing Aurum. Our team will review your request and send a confirmation to your email within 24 hours. We look forward to welcoming you.
+    </p>
+    <div class="gd rv d2"><div class="gd-line"></div><span class="gd-star">✦</span><div class="gd-line"></div></div>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap" class="rv d3">
+      <a href="{% url 'menu' %}" class="btn btn-outline">Explore the Menu</a>
+      <a href="{% url 'home' %}" class="btn btn-gold">Back to Home</a>
+    </div>
+    <p class="body-text rv d4" style="margin-top:40px;font-size:.82rem">
+      Questions? Call us at <a href="tel:{{ RESTAURANT_PHONE }}" style="color:var(--g)">{{ RESTAURANT_PHONE }}</a>
+      or email <a href="mailto:{{ RESTAURANT_EMAIL }}" style="color:var(--g)">{{ RESTAURANT_EMAIL }}</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

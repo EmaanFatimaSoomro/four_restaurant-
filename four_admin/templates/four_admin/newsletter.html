@@ -1,0 +1,33 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Newsletter{% endblock %}
+{% block page_title %}Newsletter Subscribers{% endblock %}
+{% block content %}
+<div class="grid-3 mb-24">
+  <div class="stat"><div class="stat-icon">✉️</div><div class="stat-num">{{ total_active }}</div><div class="stat-lbl">Active Subscribers</div></div>
+  <div class="stat"><div class="stat-icon">📊</div><div class="stat-num">{{ subscribers.count }}</div><div class="stat-lbl">Total Signups</div></div>
+  <div class="stat"><div class="stat-icon">🚀</div><div class="stat-num">{{ subscribers.count|add:0 }}</div><div class="stat-lbl">All Time</div></div>
+</div>
+<div style="display:flex;gap:8px;margin-bottom:20px">
+  <a href="?" class="tb-btn {% if not request.GET.status %}tb-btn-red{% else %}tb-btn-ghost{% endif %}">All</a>
+  <a href="?status=active" class="tb-btn {% if request.GET.status == 'active' %}tb-btn-red{% else %}tb-btn-ghost{% endif %}">Active</a>
+  <a href="?status=inactive" class="tb-btn {% if request.GET.status == 'inactive' %}tb-btn-red{% else %}tb-btn-ghost{% endif %}">Unsubscribed</a>
+</div>
+<div class="card">
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Email</th><th>Status</th><th>Joined</th></tr></thead>
+      <tbody>
+        {% for s in subscribers %}
+        <tr>
+          <td class="td-main">{{ s.email }}</td>
+          <td>{% if s.is_active %}<span class="badge badge-green">Active</span>{% else %}<span class="badge badge-grey">Unsubscribed</span>{% endif %}</td>
+          <td>{{ s.subscribed_at|date:"M d, Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3"><div class="empty"><div class="empty-icon">✉️</div><div class="empty-title">No subscribers yet</div></div></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

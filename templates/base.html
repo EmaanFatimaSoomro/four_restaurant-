@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="{% block meta_desc %}FOUR Restaurant Lahore — Premium smash burgers, loaded fries & pizza. DHA Phase 6, open daily 1PM–3AM.{% endblock %}">
+<meta property="og:title" content="{% block og_title %}FOUR Restaurant Lahore{% endblock %}">
+<meta property="og:description" content="{% block og_desc %}Lahore's most talked-about fast food destination.{% endblock %}">
+<meta property="og:type" content="restaurant">
+<title>{% block title %}FOUR Restaurant — Lahore{% endblock %}</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/four.css' %}">
+{% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-logo" style="padding:0">
+    <img src="{% static 'logo/logo.png' %}" alt="FOUR Restaurant" style="height:64px;width:auto;object-fit:contain">
+  </div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+  <div class="ld-sub">DHA Phase 6 · Lahore · Open Till 3 AM</div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="{% url 'home' %}" class="logo" aria-label="FOUR Restaurant">
+      <img src="{% static 'logo/logo.png' %}" alt="FOUR Restaurant"
+           style="height:44px;width:auto;object-fit:contain;transition:opacity .3s">
+    </a>
+    <ul class="nav-links">
+      <li><a href="{% url 'home' %}"        class="{% if page == 'home' %}nav-active{% endif %}">Home</a></li>
+      <li><a href="{% url 'about' %}"       class="{% if page == 'about' %}nav-active{% endif %}">About</a></li>
+      <li><a href="{% url 'menu' %}"        class="{% if page == 'menu' %}nav-active{% endif %}">Menu</a></li>
+      <li><a href="{% url 'chef' %}"        class="{% if page == 'chef' %}nav-active{% endif %}">Team</a></li>
+      <li><a href="{% url 'events' %}"      class="{% if page == 'events' %}nav-active{% endif %}">Events</a></li>
+      <li><a href="{% url 'gallery' %}"     class="{% if page == 'gallery' %}nav-active{% endif %}">Gallery</a></li>
+      <li><a href="{% url 'contact' %}"     class="{% if page == 'contact' %}nav-active{% endif %}">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="{% url 'reservation' %}" class="nav-cta">Book a Table</a>
+      <button class="ham" id="ham" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- DRAWER (mobile menu) -->
+<div id="drawer">
+  <a href="{% url 'home' %}">Home</a>
+  <a href="{% url 'about' %}">About</a>
+  <a href="{% url 'menu' %}">Menu</a>
+  <a href="{% url 'chef' %}">Team</a>
+  <a href="{% url 'events' %}">Events</a>
+  <a href="{% url 'gallery' %}">Gallery</a>
+  <a href="{% url 'contact' %}">Contact</a>
+  <a href="{% url 'reservation' %}" style="color:var(--g)">Book a Table</a>
+  <div class="drawer-social">
+    <a href="https://www.instagram.com/fourpakistan" target="_blank" rel="noopener" class="dsoc" aria-label="Instagram">◈</a>
+    <a href="#" class="dsoc" aria-label="Facebook">ƒ</a>
+    <a href="#" class="dsoc" aria-label="TikTok">♪</a>
+  </div>
+</div>
+<div id="overlay"></div>
+
+{% block content %}{% endblock %}
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="container">
+    <div class="nl-grid">
+      <div class="rv">
+        <div class="eyebrow">Stay in the Loop</div>
+        <h2 class="heading h3">Join the <em>FOUR</em> Family</h2>
+        <p class="body-text" style="margin-top:10px;max-width:360px">Get exclusive deals, new menu drops, and event updates straight to your inbox.</p>
+      </div>
+      <div class="rv d2">
+        <form id="nl-form" novalidate>
+          {% csrf_token %}
+          <div class="nl-form">
+            <input type="email" class="nl-inp" placeholder="Enter your email address" id="nl-email" required>
+            <button type="submit" class="nl-btn">Subscribe</button>
+          </div>
+          <p class="nl-note">No spam. Unsubscribe anytime. Halal certified updates only 🍔</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ft-grid">
+      <div class="ft-brand">
+        <img src="{% static 'logo/logo.png' %}" alt="FOUR Restaurant" style="height:48px;width:auto;margin-bottom:16px">
+        <p class="ft-desc">Lahore's most talked-about fast food destination — smash burgers, loaded fries, and pizza you won't forget. Open daily till 3 AM.</p>
+        <div class="ft-social">
+          <a href="https://www.instagram.com/fourpakistan" target="_blank" rel="noopener" class="fsoc" aria-label="Instagram">◈</a>
+          <a href="#" class="fsoc" aria-label="Facebook">ƒ</a>
+          <a href="#" class="fsoc" aria-label="TikTok">♪</a>
+        </div>
+      </div>
+      <div>
+        <div class="ft-col-h">Quick Links</div>
+        <ul class="ft-links">
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'menu' %}">Our Menu</a></li>
+          <li><a href="{% url 'about' %}">About FOUR</a></li>
+          <li><a href="{% url 'events' %}">Events</a></li>
+          <li><a href="{% url 'gallery' %}">Gallery</a></li>
+          <li><a href="{% url 'reservation' %}">Reservations</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-col-h">On the Menu</div>
+        <ul class="ft-links">
+          <li><a href="{% url 'menu' %}?category=burger">Smash Burgers</a></li>
+          <li><a href="{% url 'menu' %}?category=fries">Loaded Fries</a></li>
+          <li><a href="{% url 'menu' %}?category=pizza">Pizzas</a></li>
+          <li><a href="{% url 'menu' %}?category=calzone">Calzones</a></li>
+          <li><a href="{% url 'menu' %}?category=dessert">Desserts</a></li>
+          <li><a href="{% url 'menu' %}?category=drinks">Drinks</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-col-h">Visit Us</div>
+        <div class="ft-citem">
+          <span class="ft-cicon">📍</span>
+          <span class="ft-ctext">Plaza No. 51, Fairways Commercial, DHA Raya, Phase 6, Lahore</span>
+        </div>
+        <div class="ft-citem">
+          <span class="ft-cicon">📞</span>
+          <a href="tel:+923251231222" class="ft-ctext">+92 325 1231222</a>
+        </div>
+        <div class="ft-citem">
+          <span class="ft-cicon">🕐</span>
+          <span class="ft-ctext">Daily: 1:00 PM – 3:00 AM</span>
+        </div>
+        <div class="ft-citem">
+          <span class="ft-cicon">🚗</span>
+          <span class="ft-ctext">45-min delivery across DHA Phases 1–8</span>
+        </div>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p class="ft-copy">© {% now "Y" %} FOUR Restaurant Lahore. All rights reserved.</p>
+      <ul class="ft-blinks">
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div id="lb"><button id="lb-close" aria-label="Close">✕</button><img src="" alt="" id="lb-img"></div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- FLOATING CTA -->
+<div id="float-cta">
+  <a href="tel:+923251231222" class="fbtn">📞 Call to Order</a>
+  <a href="{% url 'reservation' %}" class="fbtn">🗓 Book a Table</a>
+</div>
+
+<script src="{% static 'js/aurum.js' %}"></script>
+
+<script>
+// Newsletter AJAX
+document.getElementById('nl-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('nl-email').value;
+  const btn = this.querySelector('.nl-btn');
+  btn.textContent = '…'; btn.disabled = true;
+  try {
+    const fd = new FormData();
+    fd.append('email', email);
+    fd.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+    const r = await fetch("{% url 'api_newsletter' %}", { method:'POST', body: fd });
+    const d = await r.json();
+    showToast(d.message);
+    if (d.success) this.reset();
+  } catch { showToast('Something went wrong. Please try again.'); }
+  finally { btn.textContent = 'Subscribe'; btn.disabled = false; }
+});
+</script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

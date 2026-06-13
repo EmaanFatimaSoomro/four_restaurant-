@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us — {{ RESTAURANT_NAME }}{% endblock %}
+{% block meta_desc %}The story behind FOUR Restaurant Lahore — founded by Ducky Bhai (Saad Rehman), Iqra Kanwal, Areeb Pervaiz, and Aroob Jatoi. Pakistan's most talked-about fast food destination.{% endblock %}
+
+{% block content %}
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1600&q=60" alt="About FOUR Restaurant" class="page-hero-img" loading="eager">
+  <div class="page-hero-ov"></div>
+  <div class="page-hero-body">
+    <div class="eyebrow" style="justify-content:center">Our Story</div>
+    <h1 class="heading h2" style="text-align:center">Born in <em>Lahore</em><br>&amp; Built for Everyone</h1>
+  </div>
+</section>
+
+<!-- STORY -->
+<section style="padding:130px 0;background:var(--b1)">
+  <div class="container">
+    <div class="about-grid">
+      <div class="rv">
+        <div class="eyebrow">Est. 2023</div>
+        <h2 class="heading h2">Where Bold<br>Flavours <em>Begin</em></h2>
+        <blockquote class="about-pull">"We didn't open a restaurant — we built a vibe. A place where everyone from Lahore could come, eat something amazing, and leave happy."</blockquote>
+        <p class="body-text" style="margin-bottom:18px">FOUR was born from a simple idea: Lahore deserved a premium fast food experience without pretension. Founded in 2023 by content creators Ducky Bhai (Saad Rehman), Iqra Kanwal, Areeb Pervaiz, and Aroob Jatoi — four friends who turned their love of food into one of Pakistan's most exciting restaurant brands.</p>
+        <p class="body-text" style="margin-bottom:18px">Located in the heart of DHA Raya, Phase 6, our triple-story restaurant is designed for everyone — families, late-night foodies, date nights, and everything in between. Open daily from 1 PM to 3 AM, we're Lahore's go-to spot when the craving hits.</p>
+        <p class="body-text">Every item on our menu is obsessively crafted — from the smashed beef patties to the malai crust pizza. We source quality ingredients, combine them with bold flavours, and serve them fast without cutting corners.</p>
+        <div class="gd"><div class="gd-line"></div><span class="gd-star">✦</span><div class="gd-line"></div></div>
+        <div class="about-stats">
+          <div class="ast"><span class="ast-n">2+</span><span class="ast-l">Years in Lahore</span></div>
+          <div class="ast"><span class="ast-n">500K+</span><span class="ast-l">Happy Guests</span></div>
+          <div class="ast"><span class="ast-n">1M+</span><span class="ast-l">Social Followers</span></div>
+        </div>
+      </div>
+      <div class="about-imgs rv d2">
+        <div class="ai"><img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=700&q=80" alt="FOUR Restaurant interior" loading="lazy"></div>
+        <div class="ai"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=500&q=80" alt="Smash burger" loading="lazy"></div>
+        <div class="ai"><img src="https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=500&q=80" alt="Loaded fries" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section style="padding:120px 0;background:var(--b2)">
+  <div class="container">
+    <div class="eyebrow rv" style="justify-content:center">Our Journey</div>
+    <h2 class="heading h2 rv d1" style="text-align:center;margin-bottom:80px">Milestones of <em>Growth</em></h2>
+    <div class="timeline">
+      {% for item in timeline %}
+      <div class="tl-item rv {% if forloop.even %}tl-right{% endif %}">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-year">{{ item.year }}</span>
+          <h3 class="tl-title heading h4">{{ item.title }}</h3>
+          <p class="tl-desc body-text">{{ item.desc }}</p>
+        </div>
+      </div>
+      {% empty %}
+      {% for item in default_timeline %}
+      <div class="tl-item rv {% if forloop.even %}tl-right{% endif %}">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-year">{{ item.0 }}</span>
+          <h3 class="tl-title heading h4">{{ item.1 }}</h3>
+          <p class="tl-desc body-text">{{ item.2 }}</p>
+        </div>
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section style="padding:120px 0;background:var(--b1)">
+  <div class="container">
+    <div class="eyebrow rv" style="justify-content:center">What Drives Us</div>
+    <h2 class="heading h2 rv d1" style="text-align:center;margin-bottom:64px">Our Mission &amp; <em>Values</em></h2>
+    <div class="exp-grid rv d2">
+      <div class="exp-item">
+        <span class="exp-icon">🔥</span>
+        <h3 class="exp-title heading h4">Bold Flavours Always</h3>
+        <p class="exp-desc">Every burger, fry, and pizza is built to impress. We never compromise on taste — from the first bite to the last.</p>
+      </div>
+      <div class="exp-item">
+        <span class="exp-icon">🤝</span>
+        <h3 class="exp-title heading h4">Real Hospitality</h3>
+        <p class="exp-desc">Whether you're dining in or ordering delivery, we treat every customer like a guest in our home. Lahori warmth, always.</p>
+      </div>
+      <div class="exp-item">
+        <span class="exp-icon">🚀</span>
+        <h3 class="exp-title heading h4">Speed Without Compromise</h3>
+        <p class="exp-desc">45-minute delivery, no excuses. We move fast but never let quality slip — fresh, hot, and on time, every time.</p>
+      </div>
+      <div class="exp-item">
+        <span class="exp-icon">🌙</span>
+        <h3 class="exp-title heading h4">Always Open Late</h3>
+        <p class="exp-desc">Lahore doesn't sleep and neither do we. Open till 3 AM daily because great food shouldn't have a curfew.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:100px 0;background:var(--b2);border-top:1px solid var(--border);text-align:center">
+  <div class="container">
+    <div class="eyebrow rv" style="justify-content:center">Come Visit</div>
+    <h2 class="heading h3 rv d1">Ready to <em>Experience</em> FOUR?</h2>
+    <p class="body-text rv d2" style="max-width:440px;margin:16px auto 36px">Book a table or just walk in — we're at DHA Raya, Phase 6, Lahore. Open every day from 1 PM to 3 AM.</p>
+    <a href="{% url 'reservation' %}" class="btn btn-gold rv d3">
+      Book a Table
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const defaultTimeline = [
+  ['2023','FOUR Opens in Lahore','Ducky Bhai, Iqra Kanwal, Areeb Pervaiz, and Aroob Jatoi open FOUR Restaurant at DHA Raya, Phase 6 — instantly becoming Lahore\'s most talked-about fast food spot.'],
+  ['2023','Menu Goes Viral','The Texas Flaming Hot Beef Burger and Bangkok Fries explode on social media, with hundreds of reviews and food vlogs pouring in within weeks of opening.'],
+  ['2024','45-Min Delivery Launch','FOUR expands its direct delivery service across DHA Phases 1–8, Askari XI, Bhatta Chowk, Jamu Stop, Lidher, and Alfalah Town.'],
+  ['2024','500K+ Orders Milestone','FOUR serves its 500,000th order — a testament to Lahore\'s love for bold, premium fast food done right.'],
+  ['2024','Foodpanda Partnership','FOUR joins Foodpanda, making it easier than ever for customers across Lahore to order their favourite smash burgers and loaded fries.'],
+  ['2025','Expanding the Menu','New items including the Malai Boti Calzone and Chipotle Chicken Pizza join the lineup, broadening FOUR\'s appeal to every kind of food lover.'],
+];
+const tlContainer = document.querySelector('.timeline');
+if (tlContainer && !tlContainer.children.length) {
+  tlContainer.innerHTML = defaultTimeline.map((item, i) => `
+    <div class="tl-item rv ${i%2===1?'tl-right':''}">
+      <div class="tl-dot"></div>
+      <div class="tl-card">
+        <span class="tl-year">${item[0]}</span>
+        <h3 class="tl-title heading h4">${item[1]}</h3>
+        <p class="tl-desc body-text">${item[2]}</p>
+      </div>
+    </div>`).join('');
+  if (window._rv_observer) {
+    document.querySelectorAll('.rv:not(.on)').forEach(el => window._rv_observer.observe(el));
+  }
+}
+</script>
+{% endblock %}

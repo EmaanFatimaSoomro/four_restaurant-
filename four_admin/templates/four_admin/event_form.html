@@ -1,0 +1,27 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}{% if event %}Edit{% else %}Add{% endif %} Event{% endblock %}
+{% block page_title %}{% if event %}Edit Event{% else %}Add Event{% endif %}{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data" style="max-width:700px">
+  {% csrf_token %}
+  <div class="card mb-24">
+    <div class="card-head"><div class="card-title">Event Details</div></div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="fg full"><label class="flbl">Title *</label><input type="text" name="title" class="finp" value="{{ event.title|default:'' }}" required></div>
+        <div class="fg"><label class="flbl">Date</label><input type="date" name="date" class="finp" value="{{ event.date|default:'' }}"></div>
+        <div class="fg"><label class="flbl">Time</label><input type="time" name="time" class="finp" value="{{ event.time|default:'' }}"></div>
+        <div class="fg"><label class="flbl">Location</label><input type="text" name="location" class="finp" value="{{ event.location|default:'' }}" placeholder="FOUR Restaurant, DHA Phase 6"></div>
+        <div class="fg"><label class="flbl">Ticket Price (PKR)</label><input type="number" name="price" class="finp" value="{{ event.price|default:'' }}" placeholder="0 for free"></div>
+        <div class="fg full"><label class="flbl">Description</label><textarea name="description" class="finp">{{ event.description|default:'' }}</textarea></div>
+        <div class="fg"><label class="flbl">Image</label><input type="file" name="image" class="finp" accept="image/*"></div>
+        <div class="fg" style="justify-content:center;gap:16px">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" name="is_active" {% if not event or event.is_active %}checked{% endif %} style="accent-color:var(--red)"><span class="flbl" style="margin:0">Active</span></label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" name="is_featured" {% if event.is_featured %}checked{% endif %} style="accent-color:var(--red)"><span class="flbl" style="margin:0">Featured</span></label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px"><button type="submit" class="fsub">{% if event %}Save Changes{% else %}Add Event{% endif %}</button><a href="{% url 'four_admin:events' %}" class="f-cancel">Cancel</a></div>
+</form>
+{% endblock %}

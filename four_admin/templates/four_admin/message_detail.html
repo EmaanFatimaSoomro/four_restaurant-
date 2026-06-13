@@ -1,0 +1,26 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Message from {{ msg.name }}{% endblock %}
+{% block page_title %}Message from {{ msg.name }}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:700px">
+  <div class="card-head">
+    <div class="card-title">{{ msg.subject }}</div>
+    <a href="{% url 'four_admin:messages_list' %}" class="tb-btn tb-btn-ghost">← Back</a>
+  </div>
+  <div class="card-body">
+    <div class="grid-2 mb-24" style="gap:24px">
+      <div><div class="flbl" style="margin-bottom:4px">From</div><div>{{ msg.name }}</div></div>
+      <div><div class="flbl" style="margin-bottom:4px">Email</div><a href="mailto:{{ msg.email }}" style="color:var(--red)">{{ msg.email }}</a></div>
+      <div><div class="flbl" style="margin-bottom:4px">Received</div><div>{{ msg.created_at }}</div></div>
+    </div>
+    <hr class="divider">
+    <div class="flbl" style="margin-bottom:10px">Message</div>
+    <div style="font-size:.88rem;color:var(--t2);line-height:1.7;white-space:pre-wrap">{{ msg.message }}</div>
+    <hr class="divider">
+    <div style="display:flex;gap:10px">
+      <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.subject }}" class="tb-btn tb-btn-red">Reply via Email</a>
+      <a href="{% url 'four_admin:message_delete' msg.pk %}" class="tb-btn tb-btn-ghost" onclick="return confirm('Delete?')">Delete</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

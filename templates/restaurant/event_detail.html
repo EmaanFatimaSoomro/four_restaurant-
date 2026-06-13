@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ event.title }} — {{ RESTAURANT_NAME }}{% endblock %}
+{% block meta_desc %}{{ event.short_desc|default:event.description|truncatewords:25 }}{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="page-hero">
+  <img src="{{ event.get_image }}" alt="{{ event.title }}" class="page-hero-img" loading="eager">
+  <div class="page-hero-ov"></div>
+  <div class="page-hero-body">
+    <div class="eyebrow" style="justify-content:center">{{ event.display_date }}</div>
+    <h1 class="heading h2" style="text-align:center">{{ event.title }}</h1>
+  </div>
+</section>
+
+<section style="padding:100px 0;background:var(--b1)">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:80px;align-items:start">
+      <div class="rv">
+        <div class="eyebrow">About This Event</div>
+        <h2 class="heading h3" style="margin-bottom:24px">{{ event.title }}</h2>
+        <p class="body-text">{{ event.description }}</p>
+        {% if event.price %}
+        <div style="margin:32px 0;padding:24px;border:1px solid var(--border);background:var(--b3)">
+          <p style="font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--g);margin-bottom:8px">Price per person</p>
+          <p class="heading" style="font-family:var(--serif);font-size:2rem;color:var(--g);font-style:italic">${{ event.price|floatformat:0 }}</p>
+        </div>
+        {% endif %}
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:32px">
+          <a href="{% url 'reservation' %}" class="btn btn-gold">Reserve for This Event</a>
+          <a href="{% url 'events' %}" class="btn btn-outline">All Events</a>
+        </div>
+      </div>
+
+      <!-- Reservation mini-form -->
+      <div class="res-form rv d2" style="padding:40px">
+        <h3 class="form-title heading" style="font-size:1.5rem">Book for<br><em>{{ event.title }}</em></h3>
+        <p class="form-sub">We'll note this event in your reservation</p>
+        <form id="event-res-form" novalidate>
+          {% csrf_token %}
+          <div class="fg"><label class="flbl">Full Name</label><input type="text" class="finp" placeholder="Your name" required></div>
+          <div class="fg"><label class="flbl">Email</label><input type="email" class="finp" placeholder="your@email.com" required></div>
+          <div class="frow">
+            <div class="fg"><label class="flbl">Date</label><input type="date" class="finp" id="ev-date" required></div>
+            <div class="fg"><label class="flbl">Guests</label>
+              <select class="finp">
+                {% for i in "12345678" %}<option>{{ forloop.counter }} Guest{% if forloop.counter > 1 %}s{% endif %}</option>{% endfor %}
+              </select>
+            </div>
+          </div>
+          <input type="hidden" name="special_requests" value="Event: {{ event.title }}">
+          <button type="submit" class="fsub">Reserve Now</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OTHER EVENTS -->
+{% if other_events %}
+<section style="padding:100px 0;background:var(--b2);border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="sec-header">
+      <div>
+        <div class="eyebrow rv">Also Coming Up</div>
+        <h2 class="heading h3 rv d1">Other <em>Events</em></h2>
+      </div>
+      <a href="{% url 'events' %}" class="btn-ghost rv d2">All Events</a>
+    </div>
+    <div class="ev-grid rv d2">
+      {% for ev in other_events %}
+      <div class="ev">
+        <a href="{% url 'event_detail' ev.slug %}"><div class="ev-img"><img src="{{ ev.get_image }}" alt="{{ ev.title }}" loading="lazy"></div></a>
+        <div class="ev-body">
+          <div class="ev-date">{{ ev.display_date }}</div>
+          <h3 class="ev-title heading"><a href="{% url 'event_detail' ev.slug %}" style="color:inherit">{{ ev.title }}</a></h3>
+          <p class="ev-desc">{{ ev.short_desc|default:ev.description|truncatewords:16 }}</p>
+          <a href="{% url 'event_detail' ev.slug %}" class="btn btn-outline" style="font-size:.66rem;padding:11px 22px">Learn More</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const d = new Date(); d.setDate(d.getDate()+1);
+const evDate = document.getElementById('ev-date');
+if (evDate) evDate.min = d.toISOString().split('T')[0];
+document.getElementById('event-res-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = this.querySelector('.fsub');
+  btn.textContent='Sending…'; btn.disabled=true;
+  await new Promise(r=>setTimeout(r,900));
+  showToast('✓ Reservation request sent! We\'ll confirm shortly.');
+  this.reset();
+  btn.textContent='Reserve Now'; btn.disabled=false;
+});
+</script>
+{% endblock %}

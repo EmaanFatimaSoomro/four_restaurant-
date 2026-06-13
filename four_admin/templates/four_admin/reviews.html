@@ -1,0 +1,35 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Reviews{% endblock %}
+{% block page_title %}Customer Reviews{% endblock %}
+{% block content %}
+<div style="display:flex;gap:8px;margin-bottom:20px">
+  <a href="?" class="tb-btn {% if not request.GET.status %}tb-btn-red{% else %}tb-btn-ghost{% endif %}">All</a>
+  <a href="?status=pending" class="tb-btn {% if request.GET.status == 'pending' %}tb-btn-red{% else %}tb-btn-ghost{% endif %}">Pending Approval</a>
+  <a href="?status=active" class="tb-btn {% if request.GET.status == 'active' %}tb-btn-red{% else %}tb-btn-ghost{% endif %}">Published</a>
+</div>
+<div class="card">
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Guest</th><th>Rating</th><th>Review</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for r in reviews %}
+        <tr>
+          <td><div class="td-main">{{ r.name }}</div><div style="font-size:.7rem;color:var(--t3)">{{ r.role }}</div></td>
+          <td>{{ r.stars|default:"⭐⭐⭐⭐⭐" }}</td>
+          <td style="max-width:260px"><div style="font-size:.78rem;color:var(--t2)">{{ r.quote|truncatewords:18 }}</div></td>
+          <td>{% if r.is_active %}<span class="badge badge-green">Published</span>{% else %}<span class="badge badge-yellow">Pending</span>{% endif %}</td>
+          <td>
+            <div class="tbl-actions">
+              <a href="{% url 'four_admin:review_toggle' r.pk %}" class="tbl-btn" title="{% if r.is_active %}Hide{% else %}Approve{% endif %}">{% if r.is_active %}👁{% else %}✓{% endif %}</a>
+              <a href="{% url 'four_admin:review_delete' r.pk %}" class="tbl-btn tbl-btn-del" onclick="return confirm('Delete this review?')">✕</a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5"><div class="empty"><div class="empty-icon">💬</div><div class="empty-title">No reviews yet</div></div></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

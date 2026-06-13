@@ -1,0 +1,24 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}{% if chef %}Edit{% else %}Add{% endif %} Staff{% endblock %}
+{% block page_title %}{% if chef %}Edit Staff Member{% else %}Add Staff Member{% endif %}{% endblock %}
+{% block content %}
+<form method="POST" enctype="multipart/form-data" style="max-width:700px">
+  {% csrf_token %}
+  <div class="card mb-24">
+    <div class="card-head"><div class="card-title">Staff Details</div></div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="fg"><label class="flbl">Full Name *</label><input type="text" name="name" class="finp" value="{{ chef.name|default:'' }}" required></div>
+        <div class="fg"><label class="flbl">Role / Position *</label><input type="text" name="role" class="finp" value="{{ chef.role|default:'' }}" placeholder="Head Chef" required></div>
+        <div class="fg"><label class="flbl">Years of Experience</label><input type="number" name="years_experience" class="finp" value="{{ chef.years_experience|default:'' }}"></div>
+        <div class="fg"><label class="flbl">Display Order</label><input type="number" name="order" class="finp" value="{{ chef.order|default:'0' }}"></div>
+        <div class="fg full"><label class="flbl">Bio</label><textarea name="bio" class="finp">{{ chef.bio|default:'' }}</textarea></div>
+        <div class="fg full"><label class="flbl">Quote</label><input type="text" name="quote" class="finp" value="{{ chef.quote|default:'' }}" placeholder="Their signature quote…"></div>
+        <div class="fg"><label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" name="is_featured" {% if chef.is_featured %}checked{% endif %} style="accent-color:var(--red)"><span class="flbl" style="margin:0">Featured on homepage</span></label></div>
+        <div class="fg"><label class="flbl">Photo</label><input type="file" name="image" class="finp" accept="image/*"></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px"><button type="submit" class="fsub">{% if chef %}Save Changes{% else %}Add Staff Member{% endif %}</button><a href="{% url 'four_admin:staff' %}" class="f-cancel">Cancel</a></div>
+</form>
+{% endblock %}

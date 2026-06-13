@@ -1,0 +1,25 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Staff{% endblock %}
+{% block page_title %}Staff & Chefs{% endblock %}
+{% block topbar_actions %}<a href="{% url 'four_admin:staff_add' %}" class="tb-btn tb-btn-red">+ Add Staff</a>{% endblock %}
+{% block content %}
+<div class="grid-3">
+  {% for chef in chefs %}
+  <div class="card">
+    {% if chef.image %}<img src="{{ chef.image.url }}" style="width:100%;height:180px;object-fit:cover">{% endif %}
+    <div class="card-body">
+      <div style="font-size:1rem;font-weight:700;color:var(--t1);margin-bottom:4px">{{ chef.name }}</div>
+      <div style="font-size:.75rem;color:var(--red);margin-bottom:8px">{{ chef.role }}</div>
+      <div style="font-size:.78rem;color:var(--t3);margin-bottom:16px">{{ chef.bio|truncatewords:15 }}</div>
+      {% if chef.is_featured %}<span class="badge badge-green" style="margin-bottom:12px;display:inline-flex">Featured</span>{% endif %}
+      <div class="tbl-actions">
+        <a href="{% url 'four_admin:staff_edit' chef.pk %}" class="tb-btn tb-btn-ghost" style="flex:1;justify-content:center">Edit</a>
+        <a href="{% url 'four_admin:staff_delete' chef.pk %}" class="tbl-btn tbl-btn-del" onclick="return confirm('Remove {{ chef.name }}?')">✕</a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="card" style="grid-column:1/-1"><div class="empty"><div class="empty-icon">👨‍🍳</div><div class="empty-title">No staff added yet</div></div></div>
+  {% endfor %}
+</div>
+{% endblock %}

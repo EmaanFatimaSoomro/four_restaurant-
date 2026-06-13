@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Page Not Found — Aurum{% endblock %}
+{% block newsletter %}{% endblock %}
+{% block content %}
+<section style="min-height:90vh;display:flex;align-items:center;justify-content:center;padding:120px 0;background:var(--b1);text-align:center">
+  <div class="container" style="max-width:580px">
+    <p style="font-family:var(--serif);font-size:8rem;font-weight:300;color:var(--g);line-height:1;margin-bottom:0;opacity:.35">404</p>
+    <div class="eyebrow" style="justify-content:center;margin-top:8px">Page Not Found</div>
+    <h1 class="heading h2" style="margin:12px 0 20px">This Table is <em>Unavailable</em></h1>
+    <p class="body-text" style="margin-bottom:40px">The page you're looking for has moved, been removed, or perhaps never existed. Let us guide you back to something extraordinary.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="/" class="btn btn-gold">Return Home</a>
+      <a href="/reservation/" class="btn btn-outline">Reserve a Table</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

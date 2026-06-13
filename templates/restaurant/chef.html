@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}The Chef — {{ RESTAURANT_NAME }}{% endblock %}
+{% block meta_desc %}Meet Executive Chef Marcus Beaumont — three Michelin stars, 22 years of culinary mastery, and the visionary behind Aurum's extraordinary cuisine.{% endblock %}
+
+{% block content %}
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=1600&q=60" alt="Chef Marcus Beaumont" class="page-hero-img" loading="eager">
+  <div class="page-hero-ov" style="background:linear-gradient(to right,rgba(6,6,6,.92) 0%,rgba(6,6,6,.5) 60%,rgba(6,6,6,.1) 100%)"></div>
+  <div class="page-hero-body" style="align-items:flex-start;padding-left:8vw">
+    <div class="eyebrow">The Visionary</div>
+    <h1 class="heading h1" style="max-width:700px">Executive Chef<br><em>Marcus Beaumont</em></h1>
+    <p class="body-text" style="max-width:420px;margin-top:16px">Three Michelin stars. Fourteen international awards. A lifetime devoted to the art of flavour.</p>
+  </div>
+</section>
+
+<!-- CHEF PROFILE -->
+{% if chef %}
+<section style="padding:140px 0;background:var(--b1)">
+  <div class="container">
+    <div class="chef-grid">
+      <div class="chef-imgs rv">
+        <div class="chef-badge">
+          <span class="chef-badge-n">{{ chef.years_experience }}</span>
+          <span class="chef-badge-t">Years of<br>Excellence</span>
+        </div>
+        <img class="chef-main" src="{{ chef.get_image }}" alt="{{ chef.name }}" loading="lazy">
+        {% if chef.get_accent_image %}
+        <img class="chef-accent" src="{{ chef.get_accent_image }}" alt="Chef at work" loading="lazy">
+        {% endif %}
+      </div>
+      <div class="chef-content rv d2">
+        <div class="eyebrow">Biography</div>
+        <h2 class="heading h2" style="margin-bottom:28px"><em>{{ chef.name }}</em></h2>
+        {% if chef.quote %}
+        <blockquote class="chef-quote">{{ chef.quote }}</blockquote>
+        {% endif %}
+        <p class="chef-role">{{ chef.role }}</p>
+        <p class="chef-bio">{{ chef.bio }}</p>
+        {% if chef.philosophy %}
+        <p class="body-text" style="margin-top:18px">{{ chef.philosophy }}</p>
+        {% endif %}
+        <div class="chef-stats" style="margin-top:36px">
+          <div class="cs"><span class="cs-num">{{ chef.michelin_stars }}</span><span class="cs-lbl">Michelin Stars</span></div>
+          <div class="cs"><span class="cs-num">{{ chef.awards_count }}</span><span class="cs-lbl">Awards Won</span></div>
+          <div class="cs"><span class="cs-num">{{ chef.cookbooks_count }}</span><span class="cs-lbl">Cookbooks</span></div>
+          <div class="cs"><span class="cs-num">{{ chef.years_experience }}</span><span class="cs-lbl">Years of Craft</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- PHILOSOPHY -->
+<section style="padding:120px 0;background:var(--b2)">
+  <div class="container">
+    <div style="max-width:820px;margin:0 auto;text-align:center">
+      <div class="eyebrow rv" style="justify-content:center">Culinary Philosophy</div>
+      <h2 class="heading h2 rv d1">Cooking as <em>High Art</em></h2>
+      <p class="body-text rv d2" style="margin:24px auto;font-size:1.1rem;line-height:2">"My kitchen is a laboratory of emotion. Every technique I deploy, every combination I explore, has a single purpose — to move the guest. Not just to satisfy hunger, but to create a moment they will carry with them for the rest of their lives."</p>
+      <div class="gd rv d3" style="max-width:300px;margin:0 auto"><div class="gd-line"></div><span class="gd-star">✦</span><div class="gd-line"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING & AWARDS -->
+<section style="padding:120px 0;background:var(--b1)">
+  <div class="container">
+    <div class="sec-header">
+      <div>
+        <div class="eyebrow rv">Career</div>
+        <h2 class="heading h2 rv d1">Training &amp; <em>Accolades</em></h2>
+      </div>
+    </div>
+    <div class="exp-grid rv d2" style="margin-top:0">
+      <div class="exp-item">
+        <span class="exp-icon">🇫🇷</span>
+        <h3 class="exp-title heading h4">Paris, France</h3>
+        <p class="exp-desc">Apprenticed under three-starred chef Pierre Gagnaire, mastering the discipline of classical French haute cuisine.</p>
+      </div>
+      <div class="exp-item">
+        <span class="exp-icon">🇯🇵</span>
+        <h3 class="exp-title heading h4">Kyoto, Japan</h3>
+        <p class="exp-desc">A transformative year studying kaiseki philosophy — learning restraint, seasonality, and the art of visual harmony.</p>
+      </div>
+      <div class="exp-item">
+        <span class="exp-icon">🇮🇹</span>
+        <h3 class="exp-title heading h4">Modena, Italy</h3>
+        <p class="exp-desc">Worked alongside Massimo Bottura at Osteria Francescana, discovering the power of storytelling through food.</p>
+      </div>
+      <div class="exp-item">
+        <span class="exp-icon">🌟</span>
+        <h3 class="exp-title heading h4">New York, 2008–Present</h3>
+        <p class="exp-desc">Founded Aurum, earning three Michelin stars and international recognition as one of the world's great culinary destinations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE DISHES -->
+<section style="padding:120px 0;background:var(--b2)">
+  <div class="container">
+    <div class="sec-header">
+      <div>
+        <div class="eyebrow rv">Signature Creations</div>
+        <h2 class="heading h2 rv d1">Chef Marcus's <em>Icon Dishes</em></h2>
+      </div>
+      <a href="{% url 'menu' %}" class="btn-ghost rv d2">Full Menu</a>
+    </div>
+    <div class="dishes-grid rv d1">
+      <div class="dc">
+        <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=900&q=80" alt="A5 Wagyu" loading="lazy">
+        <div class="dc-ov"></div>
+        <div class="dc-body">
+          <div class="dc-cat">Signature — Since 2012</div>
+          <h3 class="dc-name">A5 Wagyu Tenderloin</h3>
+          <p class="dc-desc">Our most celebrated dish. Japanese A5 Wagyu, Périgord truffle, pomme purée, 12-year aged jus.</p>
+          <div class="dc-price">$195</div>
+        </div>
+      </div>
+      <div class="dc">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80" alt="Truffle Risotto" loading="lazy">
+        <div class="dc-ov"></div>
+        <div class="dc-body">
+          <div class="dc-cat">Main — Since 2010</div>
+          <h3 class="dc-name">Black Truffle Risotto</h3>
+          <p class="dc-desc">Carnaroli rice, 36-month Parmigiano, summer black truffle shavings. A timeless classic.</p>
+          <div class="dc-price">$68</div>
+        </div>
+      </div>
+      <div class="dc">
+        <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=80" alt="Valrhona Soufflé" loading="lazy">
+        <div class="dc-ov"></div>
+        <div class="dc-body">
+          <div class="dc-cat">Dessert — Since 2009</div>
+          <h3 class="dc-name">Valrhona Soufflé</h3>
+          <p class="dc-desc">Dark chocolate soufflé, crème anglaise, Tahitian vanilla, edible gold. Our most requested dessert.</p>
+          <div class="dc-price">$34</div>
+        </div>
+      </div>
+      <div class="dc">
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=600&q=80" alt="Lobster Bisque" loading="lazy">
+        <div class="dc-ov"></div>
+        <div class="dc-body">
+          <div class="dc-cat">Seafood — Since 2011</div>
+          <h3 class="dc-name">Maine Lobster Thermidor</h3>
+          <p class="dc-desc">Cognac-flambéed half lobster, gruyère gratin, brandy bisque reduction. A showstopper.</p>
+          <div class="dc-price">$115</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding:100px 0;background:var(--b1);border-top:1px solid var(--border);text-align:center">
+  <div class="container">
+    <div class="eyebrow rv" style="justify-content:center">Dine With Us</div>
+    <h2 class="heading h3 rv d1">Experience Chef Marcus's <em>Artistry</em></h2>
+    <p class="body-text rv d2" style="max-width:440px;margin:16px auto 36px">Reserve your table and let Chef Marcus take you on a journey through flavour, technique, and emotion.</p>
+    <a href="{% url 'reservation' %}" class="btn btn-gold rv d3">Reserve Your Table</a>
+  </div>
+</section>
+{% endblock %}

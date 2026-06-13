@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Menu — {{ RESTAURANT_NAME }}{% endblock %}
+{% block meta_desc %}Explore the full menu at {{ RESTAURANT_NAME }} — starters, seafood, steaks, desserts, and our acclaimed tasting menus.{% endblock %}
+
+{% block content %}
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1600&q=60" alt="Menu" class="page-hero-img" loading="eager">
+  <div class="page-hero-ov"></div>
+  <div class="page-hero-body">
+    <div class="eyebrow" style="justify-content:center">Our Menu</div>
+    <h1 class="heading h2" style="text-align:center">A Symphony of <em>Flavours</em></h1>
+    <p class="body-text" style="text-align:center;max-width:520px;margin:16px auto 0">Each season brings new inspiration. Our menu evolves with nature's finest offerings, reimagined through the lens of culinary artistry.</p>
+  </div>
+</section>
+
+<!-- MENU SEARCH + TABS -->
+<section style="padding:80px 0;background:var(--b1)">
+  <div class="container">
+
+    <!-- Search Bar -->
+    <div class="menu-search-wrap rv">
+      <div class="menu-search-inner">
+        <span class="menu-search-icon">🔍</span>
+        <input type="text" id="menu-search" class="menu-search-inp" placeholder="Search dishes, ingredients…">
+        <button class="menu-search-clear" id="search-clear" onclick="clearSearch()" style="display:none">✕</button>
+      </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="menu-tabs rv" id="menu-tabs">
+      <button class="mt {% if active_category == 'all' %}on{% endif %}" data-c="all">All Dishes</button>
+      {% for cat_val, cat_label in categories %}
+      <button class="mt {% if active_category == cat_val %}on{% endif %}" data-c="{{ cat_val }}">{{ cat_label }}</button>
+      {% endfor %}
+    </div>
+
+    <!-- Result count -->
+    <p class="menu-count rv" id="menu-count"></p>
+
+    <!-- Menu Grid (initially from server, then AJAX) -->
+    <div class="menu-grid rv" id="menu-grid">
+      {% for item in menu_items %}
+      <div class="mi" data-cat="{{ item.category }}">
+        <img class="mi-img" src="{{ item.get_image }}" alt="{{ item.name }}" loading="lazy"
+             onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200&q=40'">
+        <div>
+          <div class="mi-top">
+            <h3 class="mi-name">{{ item.name }}</h3>
+            <span class="mi-price">${{ item.price|floatformat:0 }}</span>
+          </div>
+          <p class="mi-desc">{{ item.description }}</p>
+          <div class="mi-tags">
+            {% for cls, label in item.dietary_tags %}
+            <span class="tag {{ cls }}">{{ label }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <div class="menu-empty">No dishes found for this category.</div>
+      {% endfor %}
+    </div>
+
+    <div class="menu-cta rv" style="text-align:center;margin-top:60px">
+      <a href="{% url 'reservation' %}" class="btn btn-gold">Reserve to Experience the Full Menu</a>
+    </div>
+  </div>
+</section>
+
+<!-- TASTING MENU CTA BANNER -->
+<section style="padding:100px 0;background:var(--b2);border-top:1px solid var(--border)">
+  <div class="container" style="text-align:center">
+    <div class="eyebrow rv" style="justify-content:center">The Ultimate Experience</div>
+    <h2 class="heading h2 rv d1">Aurum <em>8-Course</em> Tasting Menu</h2>
+    <p class="body-text rv d2" style="max-width:540px;margin:16px auto 36px">Chef Marcus's seasonal journey — eight exquisite courses with optional wine pairing by sommelier Élise. Available every evening. $285 per person.</p>
+    <a href="{% url 'reservation' %}" class="btn btn-gold rv d3">
+      Reserve the Tasting Menu
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const MENU_API = "{% url 'api_menu' %}";
+const CSRF = "{{ csrf_token }}";
+let activeCategory = "{{ active_category }}";
+
+const grid  = document.getElementById('menu-grid');
+const tabs  = document.querySelectorAll('.mt');
+const countEl = document.getElementById('menu-count');
+const searchEl = document.getElementById('menu-search');
+const clearBtn = document.getElementById('search-clear');
+
+function updateCount(n) {
+  countEl.textContent = n > 0 ? `Showing ${n} dish${n > 1 ? 'es' : ''}` : '';
+}
+
+async function fetchMenu(cat, q) {
+  grid.style.opacity = '0';
+  grid.style.transition = 'opacity .25s';
+  try {
+    const params = new URLSearchParams();
+    if (cat && cat !== 'all') params.set('category', cat);
+    if (q) params.set('q', q);
+    const res = await fetch(`${MENU_API}?${params}`);
+    const { items, count } = await res.json();
+    renderItems(items);
+    updateCount(count);
+  } catch(e) {
+    console.error(e);
+  }
+  setTimeout(() => { grid.style.opacity = '1'; }, 50);
+}
+
+function renderItems(items) {
+  if (!items.length) {
+    grid.innerHTML = '<p class="menu-empty">No dishes found.</p>';
+    return;
+  }
+  grid.innerHTML = items.map(item => `
+    <div class="mi" data-cat="${item.category}">
+      <img class="mi-img" src="${item.image || ''}" alt="${item.name}" loading="lazy"
+           onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200&q=40'">
+      <div>
+        <div class="mi-top">
+          <h3 class="mi-name">${item.name}</h3>
+          <span class="mi-price">${item.price_display}</span>
+        </div>
+        <p class="mi-desc">${item.description}</p>
+        <div class="mi-tags">
+          ${item.dietary_tags.map(([cls, lbl]) =>
+            `<span class="tag ${cls}">${lbl}</span>`).join('')}
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// Tab switching
+tabs.forEach(tab => tab.addEventListener('click', () => {
+  tabs.forEach(t => t.classList.remove('on'));
+  tab.classList.add('on');
+  activeCategory = tab.dataset.c;
+  fetchMenu(activeCategory, searchEl.value.trim());
+  history.replaceState(null, '', `?category=${activeCategory}`);
+}));
+
+// Live search with debounce
+let searchTimer;
+searchEl.addEventListener('input', () => {
+  clearTimeout(searchTimer);
+  const q = searchEl.value.trim();
+  clearBtn.style.display = q ? 'block' : 'none';
+  searchTimer = setTimeout(() => fetchMenu(activeCategory, q), 350);
+});
+function clearSearch() {
+  searchEl.value = '';
+  clearBtn.style.display = 'none';
+  fetchMenu(activeCategory, '');
+}
+
+// Init count
+updateCount({{ menu_items|length }});
+</script>
+{% endblock %}

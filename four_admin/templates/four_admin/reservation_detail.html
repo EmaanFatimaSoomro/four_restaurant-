@@ -1,0 +1,42 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Reservation {{ r.confirmation_no }}{% endblock %}
+{% block page_title %}Reservation #{{ r.confirmation_no }}{% endblock %}
+{% block content %}
+<div class="card" style="max-width:700px">
+  <div class="card-head">
+    <div class="card-title">Guest Details</div>
+    <a href="{% url 'four_admin:reservations' %}" class="tb-btn tb-btn-ghost">← Back</a>
+  </div>
+  <div class="card-body">
+    <div class="grid-2 mb-24" style="gap:20px">
+      <div><div class="flbl" style="margin-bottom:4px">Guest Name</div><div class="fw-600">{{ r.full_name }}</div></div>
+      <div><div class="flbl" style="margin-bottom:4px">Email</div><a href="mailto:{{ r.email }}" style="color:var(--red)">{{ r.email }}</a></div>
+      <div><div class="flbl" style="margin-bottom:4px">Phone</div><div>{{ r.phone|default:"Not provided" }}</div></div>
+      <div><div class="flbl" style="margin-bottom:4px">Confirmation No.</div><div style="font-family:monospace">{{ r.confirmation_no }}</div></div>
+      <div><div class="flbl" style="margin-bottom:4px">Date</div><div>{{ r.date }}</div></div>
+      <div><div class="flbl" style="margin-bottom:4px">Time</div><div>{{ r.get_time_display }}</div></div>
+      <div><div class="flbl" style="margin-bottom:4px">Guests</div><div>{{ r.guests }} people</div></div>
+      <div><div class="flbl" style="margin-bottom:4px">Seating</div><div>{{ r.get_seating_display }}</div></div>
+    </div>
+    {% if r.special_requests %}
+    <hr class="divider">
+    <div class="flbl" style="margin-bottom:8px">Special Requests</div>
+    <div style="font-size:.85rem;color:var(--t2)">{{ r.special_requests }}</div>
+    {% endif %}
+    <hr class="divider">
+    <div class="flbl" style="margin-bottom:12px">Update Status</div>
+    <form method="POST" action="{% url 'four_admin:reservation_status' r.pk %}" style="display:flex;gap:10px;align-items:center">
+      {% csrf_token %}
+      <select name="status" class="finp" style="width:auto">
+        <option value="pending" {% if r.status == 'pending' %}selected{% endif %}>Pending</option>
+        <option value="confirmed" {% if r.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+        <option value="seated" {% if r.status == 'seated' %}selected{% endif %}>Seated</option>
+        <option value="completed" {% if r.status == 'completed' %}selected{% endif %}>Completed</option>
+        <option value="cancelled" {% if r.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+        <option value="no_show" {% if r.status == 'no_show' %}selected{% endif %}>No Show</option>
+      </select>
+      <button type="submit" class="fsub">Update</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

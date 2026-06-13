@@ -1,0 +1,20 @@
+{% load restaurant_tags %}
+<div class="mi">
+  <img class="mi-img"
+       src="{{ item.get_image }}"
+       alt="{{ item.name }}"
+       loading="lazy"
+       onerror="this.src='https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200&q=40'">
+  <div style="flex:1;min-width:0">
+    <div class="mi-top">
+      <h3 class="mi-name">{{ item.name }}</h3>
+      <span class="mi-price">{{ item.price|currency }}</span>
+    </div>
+    <p class="mi-desc">{{ item.description }}</p>
+    <div class="mi-tags">
+      {% for cls, label in item.dietary_tags %}
+        <span class="tag {{ cls }}">{{ label }}</span>
+      {% endfor %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+{% extends 'four_admin/base.html' %}
+{% block title %}Events{% endblock %}
+{% block page_title %}Events{% endblock %}
+{% block topbar_actions %}<a href="{% url 'four_admin:events_add' %}" class="tb-btn tb-btn-red">+ Add Event</a>{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Event</th><th>Date</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+        {% for e in events %}
+        <tr>
+          <td><div class="td-main">{{ e.title }}</div><div style="font-size:.7rem;color:var(--t3)">{{ e.location }}</div></td>
+          <td>{{ e.date|default:"TBD" }}</td>
+          <td>{% if e.price %}Rs. {{ e.price|floatformat:0 }}{% else %}<span style="color:var(--t3)">Free</span>{% endif %}</td>
+          <td>{% if e.is_active %}<span class="badge badge-green">Active</span>{% else %}<span class="badge badge-grey">Hidden</span>{% endif %}</td>
+          <td>
+            <div class="tbl-actions">
+              <a href="{% url 'four_admin:events_edit' e.pk %}" class="tbl-btn" title="Edit">✎</a>
+              <a href="{% url 'four_admin:events_delete' e.pk %}" class="tbl-btn tbl-btn-del" onclick="return confirm('Delete?')">✕</a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5"><div class="empty"><div class="empty-icon">🎉</div><div class="empty-title">No events yet</div></div></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

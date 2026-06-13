@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reserve a Table — {{ RESTAURANT_NAME }}{% endblock %}
+{% block meta_desc %}Book your table at {{ RESTAURANT_NAME }}. Fine dining reservations for 1–12 guests. Private dining rooms available.{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=60" alt="Reservation" class="page-hero-img" loading="eager">
+  <div class="page-hero-ov"></div>
+  <div class="page-hero-body">
+    <div class="eyebrow" style="justify-content:center">Reservations</div>
+    <h1 class="heading h2" style="text-align:center">Reserve Your <em>Table</em></h1>
+    <p class="body-text" style="text-align:center;max-width:460px;margin:16px auto 0">Secure your place in one of New York City's most celebrated dining rooms.</p>
+  </div>
+</section>
+
+<section style="padding:100px 0;background:var(--b1)">
+  <div class="container">
+    <div class="res-grid">
+
+      <!-- LEFT INFO -->
+      <div class="rv">
+        <div class="eyebrow">Why Dine With Us</div>
+        <h2 class="heading h3" style="margin-bottom:24px">An <em>Experience</em> Like<br>No Other</h2>
+        <p class="body-text">Every reservation at Aurum is more than a meal — it is a curated journey through flavour, atmosphere, and impeccable service. We recommend booking at least two weeks in advance, especially for weekends and special occasions.</p>
+
+        <div class="res-feats" style="margin-top:40px">
+          <div class="rf"><div class="rf-icon">🗓️</div><div><p class="rf-title">Real-Time Availability</p><p class="rf-desc">Instant confirmation of your preferred date, time, and seating preference</p></div></div>
+          <div class="rf"><div class="rf-icon">🥂</div><div><p class="rf-title">Special Occasions</p><p class="rf-desc">Birthday, anniversary, and bespoke celebration arrangements — tell us in your request</p></div></div>
+          <div class="rf"><div class="rf-icon">🍽️</div><div><p class="rf-title">Private Dining Rooms</p><p class="rf-desc">Exclusive rooms for intimate gatherings, corporate events, and celebrations for up to 40 guests</p></div></div>
+          <div class="rf"><div class="rf-icon">🧑‍🍳</div><div><p class="rf-title">Chef's Table</p><p class="rf-desc">Witness the brigade at work — eight exclusive front-row seats available each Saturday evening</p></div></div>
+          <div class="rf"><div class="rf-icon">📞</div><div><p class="rf-title">Concierge Support</p><p class="rf-desc">Call {{ RESTAURANT_PHONE }} — our team is available daily from 9 am to 11 pm</p></div></div>
+        </div>
+
+        <!-- Policies -->
+        <div class="res-policy rv d2">
+          <h3 class="heading h4" style="margin-bottom:14px;color:var(--g)">Reservation Policies</h3>
+          <ul class="policy-list">
+            <li>A credit card may be required to secure bookings of 5 or more guests.</li>
+            <li>Please notify us of any dietary requirements or allergies in your special requests.</li>
+            <li>Cancellations within 24 hours may incur a $50 per person charge.</li>
+            <li>We hold tables for 15 minutes past your reservation time.</li>
+            <li>Smart casual dress code. No athletic wear or sportswear please.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- RIGHT FORM -->
+      <div class="res-form rv d2">
+        <h3 class="form-title heading">Make a Reservation</h3>
+        <p class="form-sub">Complete the form and we'll confirm within 24 hours</p>
+
+        <form id="res-form" method="POST" novalidate>
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+          <div class="form-errors">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+          <div class="frow">
+            <div class="fg">
+              <label class="flbl" for="{{ form.first_name.id_for_label }}">First Name</label>
+              {{ form.first_name }}
+              {% if form.first_name.errors %}<span class="field-err">{{ form.first_name.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="fg">
+              <label class="flbl" for="{{ form.last_name.id_for_label }}">Last Name</label>
+              {{ form.last_name }}
+              {% if form.last_name.errors %}<span class="field-err">{{ form.last_name.errors.0 }}</span>{% endif %}
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label class="flbl" for="{{ form.email.id_for_label }}">Email Address</label>
+              {{ form.email }}
+              {% if form.email.errors %}<span class="field-err">{{ form.email.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="fg">
+              <label class="flbl" for="{{ form.phone.id_for_label }}">Phone Number</label>
+              {{ form.phone }}
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label class="flbl" for="{{ form.date.id_for_label }}">Preferred Date</label>
+              {{ form.date }}
+              {% if form.date.errors %}<span class="field-err">{{ form.date.errors.0 }}</span>{% endif %}
+            </div>
+            <div class="fg">
+              <label class="flbl" for="{{ form.time.id_for_label }}">Preferred Time</label>
+              {{ form.time }}
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label class="flbl" for="{{ form.guests.id_for_label }}">Number of Guests</label>
+              {{ form.guests }}
+            </div>
+            <div class="fg">
+              <label class="flbl" for="{{ form.seating.id_for_label }}">Seating Preference</label>
+              {{ form.seating }}
+            </div>
+          </div>
+          <div class="fg">
+            <label class="flbl" for="{{ form.special_requests.id_for_label }}">Special Requests / Occasion</label>
+            {{ form.special_requests }}
+          </div>
+          <button type="submit" class="fsub" id="res-submit">Confirm Reservation</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Strip -->
+<section style="padding:72px 0;background:var(--b2);border-top:1px solid var(--border)">
+  <div class="container">
+    <div class="ct-grid rv">
+      <div class="ct-col">
+        <div class="eyebrow">Visit Us</div>
+        <p class="ct-text">{{ RESTAURANT_ADDRESS }}</p>
+        <br><a href="https://maps.google.com/?q={{ RESTAURANT_ADDRESS }}" target="_blank" rel="noopener" class="btn-ghost">Get Directions</a>
+      </div>
+      <div class="ct-col">
+        <div class="eyebrow">Dining Hours</div>
+        {% for day, time in RESTAURANT_HOURS.items %}
+        <p class="ct-text">{{ day }}: <span style="color:var(--t1)">{{ time }}</span></p>
+        {% endfor %}
+      </div>
+      <div class="ct-col">
+        <div class="eyebrow">Reach Us</div>
+        <div class="ct-item"><span class="ct-icon">📞</span><span class="ct-text">{{ RESTAURANT_PHONE }}</span></div>
+        <div class="ct-item"><span class="ct-icon">✉️</span><span class="ct-text">{{ RESTAURANT_EMAIL }}</span></div>
+        <div class="ct-item"><span class="ct-icon">💬</span><span class="ct-text">WhatsApp available</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('res-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('res-submit');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+
+  const fd = new FormData(this);
+  try {
+    const r = await fetch(window.location.pathname, {
+      method: 'POST', body: fd,
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    });
+    const d = await r.json();
+    if (d.success) {
+      showToast('✓ ' + d.message);
+      this.reset();
+      document.querySelector('.res-form').scrollIntoView({ behavior: 'smooth' });
+    } else {
+      const errs = Object.values(d.errors || {}).flat().join(' · ');
+      showToast('⚠ ' + (errs || 'Please check the form and try again.'));
+    }
+  } catch { showToast('Something went wrong. Please call us directly.'); }
+  finally { btn.textContent = 'Confirm Reservation'; btn.disabled = false; }
+});
+</script>
+{% endblock %}
