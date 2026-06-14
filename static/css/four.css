@@ -395,19 +395,19 @@ footer{background:#030303;border-top:1px solid var(--border);padding:76px 0 34px
   .chef-accent{display:none}
 }
 @media(max-width:960px){
-  .container{padding:0 28px}
-  .nav-inner{padding:0 28px}
-  .hero-body{padding:0 28px}
-  .hero-dots{left:28px}
-  .hero-scroll{right:28px}
-  .chef-grid,.about-grid,.res-grid,.nl-grid{grid-template-columns:1fr;gap:48px}
+  .container{padding:0 24px}
+  .nav-inner{padding:0 24px}
+  .hero-body{padding:0 24px}
+  .hero-dots{left:24px}
+  .hero-scroll{display:none}
+  .chef-grid,.about-grid,.res-grid,.nl-grid{grid-template-columns:1fr;gap:40px}
   .chef-badge{left:0}
   .about-imgs{grid-template-columns:1fr 1fr}
   .about-imgs .ai:first-child img{min-height:200px}
   .menu-grid{grid-template-columns:1fr}
   .ev-grid{grid-template-columns:1fr 1fr}
   .ct-grid{grid-template-columns:1fr}
-  .sec-header{flex-direction:column;align-items:flex-start}
+  .sec-header{flex-direction:column;align-items:flex-start;margin-bottom:40px;gap:16px}
   .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   .gal-grid .gi{grid-column:auto!important;grid-row:auto!important;aspect-ratio:4/3}
   .gal-full-grid{grid-template-columns:1fr 1fr}
@@ -421,27 +421,145 @@ footer{background:#030303;border-top:1px solid var(--border);padding:76px 0 34px
   .tl-item.tl-right{padding-left:50px}
   .tl-dot{left:20px}
   .tl-card{max-width:100%}
-  .testi-wrap{margin:0 -28px}
-  .testi-track{padding:0 28px}
+  .testi-wrap{margin:0 -24px}
+  .testi-track{padding:0 24px}
+  .tc{flex:0 0 300px}
 }
+
+/* ── MOBILE (max 640px) ──────────────────────────────── */
 @media(max-width:640px){
+  /* Base */
+  html{font-size:15px}
+  .container{padding:0 18px}
+  .nav-inner{padding:0 18px}
   .nav-cta{display:none}
-  .hero-ctas{flex-direction:column;align-items:flex-start}
-  .dishes-grid{grid-template-columns:1fr}
+
+  /* Typography */
+  .h1{font-size:2.6rem}
+  .h2{font-size:2rem}
+  .h3{font-size:1.6rem}
+  .eyebrow{font-size:.56rem;letter-spacing:.3em;gap:10px;margin-bottom:12px}
+  .eyebrow::before{width:22px}
+  .body-text{font-size:.88rem}
+  .sec-header{flex-direction:column;align-items:flex-start;margin-bottom:32px;gap:12px}
+
+  /* Hero */
+  .hero-body{padding:0 18px}
+  .hero-tag{font-size:.52rem;letter-spacing:.28em}
+  .hero-h1{margin:14px 0 12px}
+  .hero-sub{font-size:.88rem;max-width:100%}
+  .hero-ctas{flex-direction:column;align-items:flex-start;gap:12px;margin-top:28px}
+  .hero-ctas .btn{width:100%;justify-content:center;padding:14px 24px}
+  .hero-dots{left:18px;bottom:24px}
+  .hero-scroll{display:none}
+
+  /* Sections padding */
+  section[style*="padding:130px"]{padding:72px 0!important}
+  section[style*="padding:140px"]{padding:72px 0!important}
+  section[style*="padding:120px"]{padding:64px 0!important}
+  section[style*="padding:100px"]{padding:56px 0!important}
+
+  /* Dishes */
+  .dishes-grid{grid-template-columns:1fr;gap:3px}
   .dc:first-child{grid-column:auto}
-  .dc:first-child img{aspect-ratio:4/5;min-height:unset}
-  .exp-grid{grid-template-columns:1fr}
+  .dc:first-child img{aspect-ratio:4/3;min-height:unset}
+  .dc:not(:first-child) img{aspect-ratio:4/3}
+  .dc-name{font-size:1.2rem}
+  .dc:first-child .dc-name{font-size:1.4rem}
+
+  /* Experience */
+  .exp-grid{grid-template-columns:1fr;gap:1px}
+  .exp-item{padding:36px 24px}
+
+  /* Awards */
   .awards-grid{grid-template-columns:repeat(2,1fr)}
-  .ev-grid{grid-template-columns:1fr}
-  .frow{grid-template-columns:1fr}
-  .res-form{padding:32px 20px}
-  .ft-grid{grid-template-columns:1fr}
-  .ft-bottom{flex-direction:column;text-align:center}
-  .about-stats{grid-template-columns:1fr}
-  .chef-stats{flex-wrap:wrap}
-  .nl-form{flex-direction:column}
-  .nl-inp{border-right:1px solid var(--border);border-bottom:none}
+  .aw{padding:24px 16px}
+
+  /* Gallery */
+  .gal-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
   .gal-full-grid{grid-template-columns:1fr}
   .gal-item:nth-child(4n+1){grid-column:auto}
-  .page-hero{height:44vh}
+
+  /* Events */
+  .ev-grid{grid-template-columns:1fr}
+  .ev-body{padding:20px}
+
+  /* Menu */
+  .menu-tabs{gap:0}
+  .mt{padding:11px 14px;font-size:.6rem}
+  .menu-grid{grid-template-columns:1fr;gap:2px}
+  .mi{padding:16px;gap:14px}
+  .mi-img{width:68px;height:68px}
+  .mi-name{font-size:.95rem}
+  .mi-price{font-size:.95rem}
+  .mi-desc{font-size:.74rem}
+
+  /* Chef */
+  .chef-grid{gap:32px}
+  .chef-main{aspect-ratio:3/2}
+  .chef-badge{position:relative;top:auto;left:auto;display:inline-flex;gap:10px;align-items:center;padding:10px 16px;margin-bottom:16px}
+  .chef-badge-n{font-size:1.6rem}
+  .chef-stats{flex-wrap:wrap}
+  .cs{padding:14px 16px;min-width:30%}
+
+  /* About */
+  .about-grid{gap:32px}
+  .about-imgs{grid-template-columns:1fr}
+  .about-imgs .ai:first-child{display:none}
+  .about-stats{grid-template-columns:repeat(3,1fr)}
+  .ast{padding:16px 10px}
+  .ast-n{font-size:1.4rem}
+
+  /* Reservation */
+  .res-grid{gap:32px}
+  .res-form{padding:24px 16px}
+  .form-title{font-size:1.4rem}
+  .frow{grid-template-columns:1fr}
+  .res-feats{gap:16px}
+  .rf-icon{width:34px;height:34px;font-size:.8rem}
+
+  /* Contact */
+  .ct-grid{grid-template-columns:1fr}
+  .ct-col{padding:28px 20px}
+
+  /* Newsletter */
+  .nl-grid{gap:28px}
+  .nl-form{flex-direction:column}
+  .nl-inp{border-right:1px solid var(--border);border-bottom:none}
+  #newsletter{padding:56px 0}
+
+  /* Timeline */
+  .timeline::before{left:14px}
+  .tl-item,.tl-item.tl-right{padding-left:36px;padding-right:0;justify-content:flex-start}
+  .tl-dot{left:14px;width:9px;height:9px}
+  .tl-card{padding:20px}
+  .tl-year{font-size:1.3rem}
+
+  /* Testimonials */
+  .testi-wrap{margin:0 -18px}
+  .testi-track{padding:0 18px;gap:14px}
+  .tc{flex:0 0 280px;padding:28px 22px}
+  .testi-nav{display:none}
+
+  /* Footer */
+  .ft-grid{grid-template-columns:1fr;gap:32px}
+  .ft-bottom{flex-direction:column;text-align:center;gap:10px}
+  .ft-blinks{justify-content:center}
+  footer{padding:48px 0 24px}
+  .ft-desc{max-width:100%}
+
+  /* Page hero */
+  .page-hero{height:40vh;min-height:280px}
+  .page-hero-body{margin-top:48px}
+
+  /* Float CTA */
+  #float-cta{bottom:16px;left:16px;right:16px;flex-direction:row}
+  .fbtn{flex:1;justify-content:center;font-size:.6rem;padding:10px 8px}
+
+  /* Toast */
+  #toast{left:16px;right:16px;bottom:16px;max-width:100%}
+
+  /* Drawer */
+  #drawer{padding:80px 28px 40px}
+  #drawer a{font-size:1.6rem}
 }
